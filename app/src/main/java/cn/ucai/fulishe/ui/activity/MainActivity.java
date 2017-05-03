@@ -1,4 +1,4 @@
-package cn.ucai.fulishe.ui;
+package cn.ucai.fulishe.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
