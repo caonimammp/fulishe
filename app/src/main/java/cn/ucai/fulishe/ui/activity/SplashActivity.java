@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import cn.ucai.fulishe.R;
@@ -18,8 +19,19 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_skip);
         initView();
         cdt.start();
-
+        setListener();
     }
+
+    private void setListener() {
+        tvSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cdt.cancel();
+                cdt.onFinish();
+            }
+        });
+    }
+
 
     private void initView() {
         tvSkip = (TextView) findViewById(R.id.tvSkip);
@@ -47,6 +59,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public void onFinish() {
             startActivity(new Intent(SplashActivity.this,MainActivity.class));
+            finish();
         }
     }
 }
