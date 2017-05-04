@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onCheckedChange(View view){
         getSupportFragmentManager().beginTransaction().add(R.id.layoutContact,gf).commit();
-
     }
 
 

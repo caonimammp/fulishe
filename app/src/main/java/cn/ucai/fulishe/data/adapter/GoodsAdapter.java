@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,6 +24,16 @@ import cn.ucai.fulishe.data.utils.ImageLoader;
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHolder> {
     List<NewGoodsBean> list;
     Context context;
+    boolean isMore= true;
+
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
+    }
 
     public GoodsAdapter(List<NewGoodsBean> list, Context context) {
         this.list = list;
@@ -46,6 +57,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
     @Override
     public int getItemCount() {
         return list != null ? list.size() : 0;
+    }
+
+    public void addData(ArrayList<NewGoodsBean> list) {
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 
     class GoodsViewHolder extends RecyclerView.ViewHolder{
