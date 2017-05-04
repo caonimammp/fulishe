@@ -67,7 +67,7 @@
                 style="@style/menu_item_style"
                 android:drawableTop="@drawable/selector_menu_item_category"
                 android:textColor="@color/main_botton_text_color"
-                android:text="联系人"
+                android:text="我"
                 />
 
 
