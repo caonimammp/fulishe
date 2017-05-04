@@ -39,7 +39,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
     public void onBindViewHolder(GoodsViewHolder holder, int position) {
         NewGoodsBean bean =list.get(position);
         holder.tvGoodsName.setText(bean.getGoodsName());
-        holder.tvGoodsPrice.setText(bean.getGoodsBrief());
+        holder.tvGoodsPrice.setText(bean.getCurrencyPrice());
         ImageLoader.downloadImg(context,holder.ivNewGoods,bean.getGoodsThumb());
     }
 
