@@ -54,6 +54,7 @@ public class GoodsFragment extends Fragment {
         loadData();
         layoutManager = new GridLayoutManager(getContext(), I.COLUM_NUM);
         rvGoods.setLayoutManager(layoutManager);
+        srf.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
         setListener();
     }
 
