@@ -10,5 +10,5 @@ import cn.ucai.fulishe.data.utils.OkHttpUtils;
  */
 
 public interface IGoodsModel {
-    void loadNewGoodsData(Context context, int catId, int pageId, int pageSize, OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener);
+    void loadNewGoodsData(Context context, int catId, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener);
 }

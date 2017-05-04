@@ -8,6 +8,7 @@ import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
+import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void testDownload() {
         IGoodsModel model = new GoodsModel();
-        model.loadNewGoodsData(MainActivity.this, 0, 1, 10, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+        model.loadNewGoodsData(MainActivity.this, 0, 1, 10, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 L.e("main","result="+result);
