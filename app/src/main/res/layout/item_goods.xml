@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:weightSum="1"
+    android:orientation="vertical"
+    android:id="@+id/layout_goods"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/ivNewGoods"
+        android:src="@drawable/nopic"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.42"
+        android:scaleType="fitXY"
+        />
+    <TextView
+        android:id="@+id/tvGoodsName"
+        android:layout_below="@+id/ivNewGoods"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        tools:text="商品名称商品名称商品名称商品名称"
+        />
+    <TextView
+        android:id="@+id/tvGoodsPrice"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvGoodsName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="$39.9"
+        android:paddingLeft="50dp"
+        />
+</LinearLayout>
