@@ -65,7 +65,10 @@ public class GoodsFragment extends Fragment {
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return adapter.getItemCount()-1==position?layoutManager.getSpanCount():1;
+                if(adapter==null||position==adapter.getItemCount()-1)  {
+                    return I.COLUM_NUM;
+                }
+                return 1;
             }
         });
         rvGoods.setLayoutManager(layoutManager);
@@ -85,6 +88,7 @@ public class GoodsFragment extends Fragment {
     }
 
     private void setDownLoadListener() {
+        //这里有问题
         srf.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -124,15 +128,17 @@ public class GoodsFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+    private void setLayoutVisibility(boolean visibility) {
+        srf.setRefreshing(visibility);
+        tvRefresh.setVisibility(visibility?View.VISIBLE:View.GONE);
+    }
     public void loadData(){
         model.loadNewGoodsData(getContext(), catId, pageId, pageSize, new OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 pd.dismiss();
-                srf.setRefreshing(false);
-                tvRefresh.setVisibility(View.GONE);
-                srf.setVisibility(View.VISIBLE);
-                tvNomore.setVisibility(View.GONE);
+                setLayoutVisibility(false);
+                setListVisibility(true);
                 L.e("main","result="+result);
                 if(result!=null){
                     L.e("main","result.length="+result.length);
@@ -140,8 +146,7 @@ public class GoodsFragment extends Fragment {
                     upDataUI(list);
                 }else{
                     if(adapter!=null||adapter.getItemCount()==1){
-                        tvNomore.setVisibility(View.VISIBLE);
-                        srf.setVisibility(View.GONE);
+                        setListVisibility(false);
                     }
                 }
                 if(adapter!=null){
@@ -153,21 +158,34 @@ public class GoodsFragment extends Fragment {
                 }
 
             }
+
+
+
             @Override
             public void onError(String error) {
                 pd.dismiss();
-                srf.setRefreshing(false);
-                tvRefresh.setVisibility(View.GONE);
+                setLayoutVisibility(false);
                 L.e("mian","error"+error);
             }
         });
     }
+
+    private void setListVisibility(boolean visibility) {
+        srf.setVisibility(visibility?View.VISIBLE:View.GONE);
+        tvNomore.setVisibility(visibility?View.GONE:View.VISIBLE);
+    }
+
     public void upDataUI(ArrayList<NewGoodsBean> list){
         if(adapter==null){
             adapter=new GoodsAdapter(list,getContext());
             rvGoods.setAdapter(adapter);
         }else{
-            adapter.addData(list);
+            if(pageId==1){
+                adapter.initData(list);
+            }else {
+
+                adapter.addData(list);
+            }
         }
     }
 }

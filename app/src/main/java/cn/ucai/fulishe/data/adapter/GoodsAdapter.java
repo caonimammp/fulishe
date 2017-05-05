@@ -88,6 +88,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return isMore ? "加载更多数据" : "没有更多数据";
     }
 
+    public void initData(ArrayList<NewGoodsBean> list) {
+        if(this.list!=null){
+            this.list.clear();
+        }
+          this.list.addAll(list);
+    }
+
+
     class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivNewGoods)
         ImageView ivNewGoods;
