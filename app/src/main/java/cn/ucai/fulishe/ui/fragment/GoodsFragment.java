@@ -88,7 +88,6 @@ public class GoodsFragment extends Fragment {
     }
 
     private void setDownLoadListener() {
-        //这里有问题
         srf.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

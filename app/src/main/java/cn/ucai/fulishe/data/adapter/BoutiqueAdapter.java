@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +46,13 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<BoutiqueAdapter.Boutiq
     @Override
     public int getItemCount() {
         return list==null?0:list.size();
+    }
+
+    public void initData(ArrayList<BoutiqueBean> list) {
+        if(list!=null){
+            this.list.clear();
+        }
+        this.list.addAll(list);
     }
 
     class BoutiqueViewHolder extends RecyclerView.ViewHolder{

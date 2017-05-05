@@ -2,6 +2,7 @@ package cn.ucai.fulishe.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -13,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
     GoodsFragment gf;
     BoutiqueFragment bf;
     Fragment[] mFragments;
-    int index,currentIndex;
+    int index, currentIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,37 +28,42 @@ public class MainActivity extends AppCompatActivity {
         gf = new GoodsFragment();
         bf = new BoutiqueFragment();
         mFragments = new Fragment[5];
-        mFragments[0]=gf;
-        mFragments[1]=bf;
+        mFragments[0] = gf;
+        mFragments[1] = bf;
     }
 
-    public void showFragment(){
+    public void showFragment() {
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.layoutContact,gf)
-                .add(R.id.layoutContact,bf)
+                .add(R.id.layoutContact, mFragments[0])
+                .add(R.id.layoutContact, mFragments[1])
                 .show(gf)
                 .hide(bf)
                 .commit();
 
     }
-    public void onCheckedChange(View view){
-        switch(view.getId()){
+
+    public void onCheckedChange(View view) {
+        switch (view.getId()) {
             case R.id.rbNewGoods:
-                index=0;
+                index = 0;
                 break;
             case R.id.rbBoutique:
-                index=1;
+                index = 1;
                 break;
         }
         setFragment();
     }
 
     private void setFragment() {
-        if(index!=currentIndex){
-            getSupportFragmentManager().beginTransaction().replace(R.id.layoutContact,mFragments[index])
-                    .commit();
-            currentIndex=index;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (!mFragments[index].isAdded()) {
+            ft.add(R.id.layoutContact, mFragments[index]);
         }
+        if (index != currentIndex) {
+            ft.hide(mFragments[currentIndex]);
+            ft.show(mFragments[index]).commit();
+        }
+        currentIndex = index;
     }
 
 
