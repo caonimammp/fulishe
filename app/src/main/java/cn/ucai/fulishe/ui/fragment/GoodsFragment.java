@@ -49,6 +49,13 @@ public class GoodsFragment extends Fragment {
     int pageId = 1;
     int pageSize =10;
     ProgressDialog pd;
+    public GoodsFragment() {
+    }
+    public GoodsFragment(int catId) {
+        this.catId = catId;
+    }
+
+
     GridLayoutManager layoutManager;
 
     @Override
