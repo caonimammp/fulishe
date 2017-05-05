@@ -3,6 +3,7 @@ package cn.ucai.fulishe.data.net;
 import android.content.Context;
 
 import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.BoutiqueBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
 
@@ -19,6 +20,14 @@ public class GoodsModel implements IGoodsModel {
                 .addParam(I.PAGE_ID,String.valueOf(pageId))
                 .addParam(I.PAGE_SIZE,String.valueOf(pageSize))
                 .targetClass(NewGoodsBean[].class)
+                .execute(listener);
+    }
+
+    @Override
+    public void loadBoutiqueData(Context context, OkHttpUtils.OnCompleteListener<BoutiqueBean[]> listener) {
+        OkHttpUtils<BoutiqueBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
+                .targetClass(BoutiqueBean[].class)
                 .execute(listener);
     }
 }
