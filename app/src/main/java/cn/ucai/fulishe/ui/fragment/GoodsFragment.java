@@ -26,6 +26,7 @@ import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
+import cn.ucai.fulishe.ui.view.SpaceItemDecoration;
 
 /**
  * Created by Administrator on 2017/5/4.
@@ -69,7 +70,7 @@ public class GoodsFragment extends Fragment {
         });
         rvGoods.setLayoutManager(layoutManager);
         srf.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
-
+        rvGoods.addItemDecoration(new SpaceItemDecoration(20));
     }
 
     private void initDialog() {
