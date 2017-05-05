@@ -69,6 +69,7 @@ public class GoodsFragment extends Fragment {
         });
         rvGoods.setLayoutManager(layoutManager);
         srf.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimaryDark);
+
     }
 
     private void initDialog() {
