@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
@@ -58,7 +59,10 @@ public class GoodsFragment extends Fragment {
         loadData();
         setListener();
     }
-
+    @OnClick(R.id.tv_nomore)
+    public void onClick(View view){
+        loadData();
+    }
     private void initView() {
         model = new GoodsModel();
         layoutManager = new GridLayoutManager(getContext(), I.COLUM_NUM);
@@ -105,7 +109,7 @@ public class GoodsFragment extends Fragment {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
-                if(adapter.getItemCount()-1==lastCompletelyVisibleItemPosition&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
+                if(adapter!=null&&adapter.getItemCount()-1==lastCompletelyVisibleItemPosition&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
                     pageId++;
                     loadData();
                 }
@@ -163,7 +167,7 @@ public class GoodsFragment extends Fragment {
             @Override
             public void onError(String error) {
                 pd.dismiss();
-                setLayoutVisibility(false);
+                setListVisibility(false);
                 L.e("mian","error"+error);
             }
         });

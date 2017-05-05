@@ -101,7 +101,7 @@ public class BoutiqueFragment extends Fragment {
             @Override
             public void onError(String error) {
                 pd.dismiss();
-                setLayoutVisibility(false);
+                setListVisibility(false);
                 L.e("mian","error"+error);
             }
         });
