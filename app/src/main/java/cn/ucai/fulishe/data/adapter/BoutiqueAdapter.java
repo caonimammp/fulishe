@@ -1,6 +1,7 @@
 package cn.ucai.fulishe.data.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.BoutiqueBean;
 import cn.ucai.fulishe.data.utils.ImageLoader;
+import cn.ucai.fulishe.ui.activity.Boutique_ChildActivity;
+import cn.ucai.fulishe.ui.activity.MainActivity;
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -36,11 +40,19 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<BoutiqueAdapter.Boutiq
 
     @Override
     public void onBindViewHolder(BoutiqueViewHolder holder, int position) {
-        BoutiqueBean bean = list.get(position);
+        final BoutiqueBean bean = list.get(position);
         holder.tvBoutiqueMes.setText(bean.getDescription());
         holder.tvBoutiqueName.setText(bean.getName());
         holder.tvBoutiqueTitle.setText(bean.getTitle());
         ImageLoader.downloadImg(context,holder.ivBoutiqueImg,bean.getImageurl());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, Boutique_ChildActivity.class)
+                        .putExtra(I.NewAndBoutiqueGoods.CAT_ID,bean.getId())
+                        .putExtra(I.Boutique.TITLE,bean.getTitle()));
+            }
+        });
     }
 
     @Override
