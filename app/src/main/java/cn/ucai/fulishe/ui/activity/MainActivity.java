@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         gf = new GoodsFragment();
     }
     public void onCheckedChange(View view){
-        getSupportFragmentManager().beginTransaction().add(R.id.layoutContact,gf).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layoutContact,gf).commit();
     }
 
 
