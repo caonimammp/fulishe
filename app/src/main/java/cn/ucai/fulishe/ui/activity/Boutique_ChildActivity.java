@@ -35,6 +35,7 @@ public class Boutique_ChildActivity extends AppCompatActivity {
         int catId=getIntent().getIntExtra(I.NewAndBoutiqueGoods.CAT_ID,I.CAT_ID);
         gf=new GoodsFragment(catId);
         String title = getIntent().getStringExtra(I.Boutique.TITLE);
+        tvBoutiqueCate.setText(title);
         getSupportFragmentManager().beginTransaction().add(R.id.layoutContact,
                 gf).commit();
     }
