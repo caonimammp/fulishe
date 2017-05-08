@@ -134,6 +134,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.ivBack)
     public void onViewClicked() {
+        finish();
     }
 
     @Override
