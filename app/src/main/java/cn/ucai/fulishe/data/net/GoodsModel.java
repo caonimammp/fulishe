@@ -4,6 +4,7 @@ import android.content.Context;
 
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.BoutiqueBean;
+import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
 
@@ -24,10 +25,19 @@ public class GoodsModel implements IGoodsModel {
     }
 
     @Override
-    public void loadBoutiqueData(Context context, OkHttpUtils.OnCompleteListener<BoutiqueBean[]> listener) {
+    public void loadBoutiqueData(Context context, OnCompleteListener<BoutiqueBean[]> listener) {
         OkHttpUtils<BoutiqueBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
                 .targetClass(BoutiqueBean[].class)
+                .execute(listener);
+    }
+
+    @Override
+    public void loadGoodsDetail(Context context, int goodsId, OnCompleteListener<GoodsDetailsBean> listener) {
+        OkHttpUtils<GoodsDetailsBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
+                .addParam(I.GoodsDetails.KEY_GOODS_ID,String.valueOf(goodsId))
+                .targetClass(GoodsDetailsBean.class)
                 .execute(listener);
     }
 }

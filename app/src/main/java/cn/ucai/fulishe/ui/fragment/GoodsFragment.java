@@ -52,6 +52,7 @@ public class GoodsFragment extends Fragment {
     public GoodsFragment() {
     }
     public GoodsFragment(int catId) {
+        L.e("main",catId+"");
         this.catId = catId;
     }
 
