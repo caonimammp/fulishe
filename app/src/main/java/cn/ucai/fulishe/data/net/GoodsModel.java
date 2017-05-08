@@ -4,6 +4,8 @@ import android.content.Context;
 
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.BoutiqueBean;
+import cn.ucai.fulishe.data.bean.CategoryChildBean;
+import cn.ucai.fulishe.data.bean.CategoryGroupBean;
 import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
@@ -40,4 +42,23 @@ public class GoodsModel implements IGoodsModel {
                 .targetClass(GoodsDetailsBean.class)
                 .execute(listener);
     }
+
+    @Override
+    public void loadCreategoryGroup(Context context, OnCompleteListener<CategoryGroupBean[]> listener) {
+        OkHttpUtils<CategoryGroupBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
+                .targetClass(CategoryGroupBean[].class)
+                .execute(listener);
+
+    }
+
+    @Override
+    public void loadCreateChild(Context context, int parentId, OnCompleteListener<CategoryChildBean[]> listener) {
+        OkHttpUtils<CategoryChildBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
+                .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))
+                .targetClass(CategoryChildBean[].class)
+                .execute(listener);
+    }
+
 }
