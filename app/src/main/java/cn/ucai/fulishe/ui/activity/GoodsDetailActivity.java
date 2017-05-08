@@ -12,10 +12,12 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.AlbumsBean;
 import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
+import cn.ucai.fulishe.data.bean.PropertiesBean;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
@@ -50,13 +52,13 @@ public class GoodsDetailActivity extends AppCompatActivity {
     RelativeLayout layoutBanner;
     @BindView(R.id.activity_goods_detail)
     RelativeLayout activityGoodsDetail;
-
+    Unbinder bind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_goods_detail);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
         initData();
     }
@@ -113,7 +115,13 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private AlbumsBean[] getAlbumImg(GoodsDetailsBean bean) {
-        return new AlbumsBean[0];
+        if(bean.getPromotePrice()!=null&&bean.getProperties().length>0){
+            PropertiesBean propertiesBean = bean.getProperties()[0];
+            if(propertiesBean!=null&&propertiesBean.getAlbums()!=null){
+                return propertiesBean.getAlbums();
+            }
+        }
+        return null;
     }
 
     private int getAlbumImgCount(GoodsDetailsBean bean) {
@@ -126,5 +134,16 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.ivBack)
     public void onViewClicked() {
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(bind!=null){
+            bind.unbind();
+        }
+        if(salv!=null){
+            salv.stopPlayLoop();
+        }
     }
 }
