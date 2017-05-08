@@ -44,7 +44,7 @@ public class GoodsModel implements IGoodsModel {
     }
 
     @Override
-    public void loadCreategoryGroup(Context context, OnCompleteListener<CategoryGroupBean[]> listener) {
+    public void loadCategoryGroup(Context context, OnCompleteListener<CategoryGroupBean[]> listener) {
         OkHttpUtils<CategoryGroupBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_GROUP)
                 .targetClass(CategoryGroupBean[].class)
@@ -53,7 +53,7 @@ public class GoodsModel implements IGoodsModel {
     }
 
     @Override
-    public void loadCreateChild(Context context, int parentId, OnCompleteListener<CategoryChildBean[]> listener) {
+    public void loadCateChild(Context context, int parentId, OnCompleteListener<CategoryChildBean[]> listener) {
         OkHttpUtils<CategoryChildBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
                 .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))

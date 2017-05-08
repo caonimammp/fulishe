@@ -16,6 +16,6 @@ public interface IGoodsModel {
     void loadNewGoodsData(Context context, int catId, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener);
     void loadBoutiqueData(Context context, OnCompleteListener<BoutiqueBean[]> listener);
     void loadGoodsDetail(Context context, int goodsId, OnCompleteListener<GoodsDetailsBean> listener);
-    void loadCreategoryGroup(Context context, OnCompleteListener<CategoryGroupBean[]> listener);
-    void loadCreateChild(Context context,int parentId,OnCompleteListener<CategoryChildBean[]> listener);
+    void loadCategoryGroup(Context context, OnCompleteListener<CategoryGroupBean[]> listener);
+    void loadCateChild(Context context,int parentId,OnCompleteListener<CategoryChildBean[]> listener);
 }
