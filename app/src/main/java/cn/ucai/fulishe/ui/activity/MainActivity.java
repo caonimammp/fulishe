@@ -8,12 +8,14 @@ import android.view.View;
 
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.ui.fragment.BoutiqueFragment;
+import cn.ucai.fulishe.ui.fragment.CategoryFragment;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
 
 public class MainActivity extends AppCompatActivity {
     GoodsFragment gf;
     BoutiqueFragment bf;
     Fragment[] mFragments;
+    CategoryFragment cf;
     int index, currentIndex;
 
     @Override
@@ -27,15 +29,18 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment() {
         gf = new GoodsFragment();
         bf = new BoutiqueFragment();
+        cf = new CategoryFragment();
         mFragments = new Fragment[5];
         mFragments[0] = gf;
         mFragments[1] = bf;
+        mFragments[2] = cf;
     }
 
     public void showFragment() {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.layoutContact, mFragments[0])
                 .add(R.id.layoutContact, mFragments[1])
+                .add(R.id.layoutContact, mFragments[2])
                 .show(gf)
                 .hide(bf)
                 .commit();
@@ -49,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.rbBoutique:
                 index = 1;
+                break;
+            case R.id.rbCategory:
+                index = 2;
                 break;
         }
         setFragment();

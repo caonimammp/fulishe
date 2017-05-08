@@ -17,11 +17,11 @@ import cn.ucai.fulishe.data.utils.OkHttpUtils;
 public class GoodsModel implements IGoodsModel {
     @Override
     public void loadNewGoodsData(Context context, int catId, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener) {
-        OkHttpUtils<NewGoodsBean[]> utils=new OkHttpUtils<>(context);
+        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_NEW_BOUTIQUE_GOODS)
-                .addParam(I.NewAndBoutiqueGoods.CAT_ID,String.valueOf(catId))
-                .addParam(I.PAGE_ID,String.valueOf(pageId))
-                .addParam(I.PAGE_SIZE,String.valueOf(pageSize))
+                .addParam(I.NewAndBoutiqueGoods.CAT_ID, String.valueOf(catId))
+                .addParam(I.PAGE_ID, String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE, String.valueOf(pageSize))
                 .targetClass(NewGoodsBean[].class)
                 .execute(listener);
     }
@@ -38,7 +38,7 @@ public class GoodsModel implements IGoodsModel {
     public void loadGoodsDetail(Context context, int goodsId, OnCompleteListener<GoodsDetailsBean> listener) {
         OkHttpUtils<GoodsDetailsBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
-                .addParam(I.GoodsDetails.KEY_GOODS_ID,String.valueOf(goodsId))
+                .addParam(I.GoodsDetails.KEY_GOODS_ID, String.valueOf(goodsId))
                 .targetClass(GoodsDetailsBean.class)
                 .execute(listener);
     }
@@ -53,12 +53,11 @@ public class GoodsModel implements IGoodsModel {
     }
 
     @Override
-    public void loadCateChild(Context context, int parentId, OnCompleteListener<CategoryChildBean[]> listener) {
+    public void loadCategoryChild(Context context, int parentId, OnCompleteListener<CategoryChildBean[]> listener) {
         OkHttpUtils<CategoryChildBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_CATEGORY_CHILDREN)
-                .addParam(I.CategoryChild.PARENT_ID,String.valueOf(parentId))
+                .addParam(I.CategoryChild.PARENT_ID, String.valueOf(parentId))
                 .targetClass(CategoryChildBean[].class)
                 .execute(listener);
     }
-
 }
