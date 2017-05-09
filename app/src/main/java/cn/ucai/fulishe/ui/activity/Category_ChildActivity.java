@@ -13,6 +13,7 @@ import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
+import cn.ucai.fulishe.ui.view.CatFiterCategoryButton;
 
 public class Category_ChildActivity extends AppCompatActivity {
     GoodsFragment gf;
@@ -23,6 +24,8 @@ public class Category_ChildActivity extends AppCompatActivity {
     Button tvPrice;
     @BindView(R.id.addTime)
     Button addTime;
+    @BindView(R.id.cfcb)
+    CatFiterCategoryButton cfcb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

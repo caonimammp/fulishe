@@ -10,9 +10,10 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp">
             <include layout="@layout/common_head" android:id="@+id/headName"/>
-            <TextView
+            <cn.ucai.fulishe.ui.view.CatFiterCategoryButton
+                android:id="@+id/cfcb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="美妆"
@@ -26,7 +27,7 @@
             <Button
                 android:id="@+id/tvPrice"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="价钱"
                 android:drawableRight="@drawable/arrow_order_down"
@@ -36,7 +37,7 @@
                 android:layout_weight="1"
                 android:text="上架时间"
                 android:drawableRight="@drawable/arrow_order_down"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 />
