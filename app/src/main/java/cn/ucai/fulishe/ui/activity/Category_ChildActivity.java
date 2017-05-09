@@ -6,6 +6,7 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
@@ -14,13 +15,13 @@ public class Category_ChildActivity extends AppCompatActivity {
     GoodsFragment gf;
     boolean priceAsc,addTimeAsc;
     int sortBy;
-
+    Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorychild);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         int catId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 1);
         gf = new GoodsFragment(catId);
         String title = getIntent().getStringExtra(I.Boutique.TITLE);
@@ -41,5 +42,13 @@ public class Category_ChildActivity extends AppCompatActivity {
                 break;
         }
             gf.sortGoods(sortBy);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(bind!=null){
+            bind.unbind();
+        }
     }
 }
