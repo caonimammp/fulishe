@@ -20,9 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.data.adapter.CategoryAdapter;
-import cn.ucai.fulishe.data.bean.BoutiqueBean;
 import cn.ucai.fulishe.data.bean.CategoryChildBean;
 import cn.ucai.fulishe.data.bean.CategoryGroupBean;
+import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.utils.L;
@@ -32,8 +32,6 @@ import cn.ucai.fulishe.data.utils.ResultUtils;
 public class CategoryFragment extends Fragment {
     Unbinder unbinder;
     IGoodsModel model;
-    LinearLayoutManager llm;
-    List<BoutiqueBean> list;
     CategoryAdapter adapter;
     ProgressDialog pd;
     TextView tvNomore;
@@ -48,9 +46,10 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadGroupData();
-        initDialog();
         initList();
+        initDialog();
+        model = new GoodsModel();
+        loadGroupData();
     }
 
     private void initList() {
@@ -65,7 +64,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void setListVisibility(boolean visibility) {
-        tvNomore.setVisibility(visibility ? View.GONE : View.VISIBLE);
+        tvNore.setVisibility(visibility ? View.GONE : View.VISIBLE);
         rvGoods.setVisibility(visibility?View.VISIBLE:View.GONE);
     }
 
@@ -112,7 +111,6 @@ public class CategoryFragment extends Fragment {
                     upDataUI();
                     pd.dismiss();
                     setListVisibility(true);
-                    setListVisibility(false);
                 }
             }
 
@@ -123,7 +121,6 @@ public class CategoryFragment extends Fragment {
                 if (groupCount == groupList.size()) {
                     pd.dismiss();
                     setListVisibility(true);
-                    setListVisibility(false);
                 }
             }
         });

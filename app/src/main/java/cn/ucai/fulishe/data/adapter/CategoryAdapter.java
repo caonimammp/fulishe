@@ -51,7 +51,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
     @Override
     public CategoryChildBean getChild(int groupPosition, int childPosition) {
-        return childList != null && childList.get(childPosition) != null ? childList.get(groupPosition).get(childPosition) : null;
+        return childList != null && childList.get(groupPosition) != null ? childList.get(groupPosition).get(childPosition) : null;
     }
 
     @Override

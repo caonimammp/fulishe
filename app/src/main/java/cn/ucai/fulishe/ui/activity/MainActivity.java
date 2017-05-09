@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.layoutContact, mFragments[2])
                 .show(gf)
                 .hide(bf)
+                .hide(cf)
                 .commit();
 
     }
