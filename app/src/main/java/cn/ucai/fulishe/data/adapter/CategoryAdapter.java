@@ -1,6 +1,7 @@
 package cn.ucai.fulishe.data.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,9 +15,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.CategoryChildBean;
 import cn.ucai.fulishe.data.bean.CategoryGroupBean;
 import cn.ucai.fulishe.data.utils.ImageLoader;
+import cn.ucai.fulishe.ui.activity.Category_ChildActivity;
 
 /**
  * Created by Administrator on 2017/5/8.
@@ -84,7 +87,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder;
         if(convertView==null){
             convertView = View.inflate(context, R.layout.item_category_child, null);
@@ -94,6 +97,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             holder = (ChildViewHolder) convertView.getTag();
         }
         holder.bind(groupPosition,childPosition);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context,Category_ChildActivity.class)
+                .putExtra(I.CategoryChild.CAT_ID,getChild(groupPosition,childPosition).getId()));
+            }
+        });
         return convertView;
     }
 
@@ -140,6 +150,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
                 ImageLoader.downloadImg(context,ivCategoryChildName,bean.getImageUrl());
                 tvCategoryChildName.setText(bean.getName());
             }
+
         }
     }
 }
