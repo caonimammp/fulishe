@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class CategoryFragment extends Fragment {
     ProgressDialog pd;
     TextView tvNomore;
     List<CategoryGroupBean> groupList;
-    List<List<CategoryChildBean>> childList;
+    List<ArrayList<CategoryChildBean>> childList;
     int groupCount = 0;
     @BindView(R.id.rvGoods)
     ExpandableListView rvGoods;

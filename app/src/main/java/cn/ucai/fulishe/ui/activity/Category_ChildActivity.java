@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.CategoryChildBean;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
 import cn.ucai.fulishe.ui.view.CatFiterCategoryButton;
 
@@ -37,6 +41,9 @@ public class Category_ChildActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra(I.Boutique.TITLE);
         getSupportFragmentManager().beginTransaction().add(R.id.layoutContact,
                 gf).commit();
+        String groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        ArrayList<CategoryChildBean> list = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
+        cfcb.initView(groupName,list);
     }
 
     @OnClick({R.id.tvPrice, R.id.addTime})
@@ -64,6 +71,9 @@ public class Category_ChildActivity extends AppCompatActivity {
         super.onDestroy();
         if (bind != null) {
             bind.unbind();
+        }
+        if(cfcb!=null){
+            cfcb.release();
         }
     }
 

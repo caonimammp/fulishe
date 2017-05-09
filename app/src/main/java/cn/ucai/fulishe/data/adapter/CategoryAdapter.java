@@ -2,14 +2,15 @@ package cn.ucai.fulishe.data.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,11 +28,23 @@ import cn.ucai.fulishe.ui.activity.Category_ChildActivity;
 
 public class CategoryAdapter extends BaseExpandableListAdapter {
     List<CategoryGroupBean> groupList;
-    List<List<CategoryChildBean>> childList;
+    List<ArrayList<CategoryChildBean>> childList;
     Context context;
+    @BindView(R.id.ivCategoryChildName)
+    ImageView ivCategoryChildName;
+    @BindView(R.id.tvCategoryChildName)
+    TextView tvCategoryChildName;
+    @BindView(R.id.ivCategoryGroupName)
+    ImageView ivCategoryGroupName;
+    @BindView(R.id.tvGpoupName)
+    TextView tvGpoupName;
+    @BindView(R.id.ivExpand)
+    ImageView ivExpand;
+    @BindView(R.id.Layout_child)
+    LinearLayout LayoutChild;
 
 
-    public CategoryAdapter(List<CategoryGroupBean> groupList, List<List<CategoryChildBean>> childList, Context context) {
+    public CategoryAdapter(List<CategoryGroupBean> groupList, List<ArrayList<CategoryChildBean>> childList, Context context) {
         this.groupList = groupList;
         this.childList = childList;
         this.context = context;
@@ -79,29 +92,32 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             convertView = View.inflate(context, R.layout.item_category_group, null);
             holder = new GroupViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
-        holder.bind(groupPosition,isExpanded);
+        holder.bind(groupPosition, isExpanded);
         return convertView;
     }
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder;
-        if(convertView==null){
+        if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_category_child, null);
             holder = new ChildViewHolder(convertView);
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
-        holder.bind(groupPosition,childPosition);
+        holder.bind(groupPosition, childPosition);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.startActivity(new Intent(context,Category_ChildActivity.class)
-                .putExtra(I.CategoryChild.CAT_ID,getChild(groupPosition,childPosition).getId()));
+                        .putExtra(I.CategoryChild.CAT_ID,getChild(groupPosition,childPosition).getId())
+                        .putExtra(I.CategoryGroup.NAME,groupList.get(groupPosition).getName())
+                        .putExtra(I.CategoryChild.ID,childList.get(groupPosition)));
             }
         });
         return convertView;
@@ -127,13 +143,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
         public void bind(int groupPosition, boolean isExpanded) {
             CategoryGroupBean bean = groupList.get(groupPosition);
-            ImageLoader.downloadImg(context,ivCategoryGroupName,bean.getImageUrl());
+            ImageLoader.downloadImg(context, ivCategoryGroupName, bean.getImageUrl());
             tvGpoupName.setText(bean.getName());
-            ivExpand.setImageResource(isExpanded?R.mipmap.expand_off:R.mipmap.expand_on);
+            ivExpand.setImageResource(isExpanded ? R.mipmap.expand_off : R.mipmap.expand_on);
         }
     }
 
-    class ChildViewHolder extends RecyclerView.ViewHolder{
+    class ChildViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivCategoryChildName)
         ImageView ivCategoryChildName;
         @BindView(R.id.tvCategoryChildName)
@@ -144,10 +160,10 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             ButterKnife.bind(this, view);
         }
 
-        public void bind(int groupPosition, int childPosition) {
-            CategoryChildBean bean = getChild(groupPosition,childPosition);
-            if(bean!=null){
-                ImageLoader.downloadImg(context,ivCategoryChildName,bean.getImageUrl());
+        public void bind(final int groupPosition, int childPosition) {
+            final CategoryChildBean bean = getChild(groupPosition, childPosition);
+            if (bean != null) {
+                ImageLoader.downloadImg(context, ivCategoryChildName, bean.getImageUrl());
                 tvCategoryChildName.setText(bean.getName());
             }
 

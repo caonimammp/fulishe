@@ -6,11 +6,18 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.data.adapter.CatFiterAdapter;
+import cn.ucai.fulishe.data.bean.CategoryChildBean;
+import cn.ucai.fulishe.data.utils.CommonUtils;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -18,7 +25,9 @@ import cn.ucai.fulishe.R;
 
 public class CatFiterCategoryButton extends Button {
     PopupWindow mPopupWindow;
+    GridView gv;
     Context context;
+    CatFiterAdapter adapter;
     boolean isExpan=false;
     public CatFiterCategoryButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -39,8 +48,6 @@ public class CatFiterCategoryButton extends Button {
                 }
                 setArrow();
             }
-
-
         });
     }
 
@@ -51,19 +58,32 @@ public class CatFiterCategoryButton extends Button {
     }
 
     private void initPopwin() {
-
         if(mPopupWindow==null){
             mPopupWindow = new PopupWindow(context);
             mPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             mPopupWindow.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
             mPopupWindow.setBackgroundDrawable(new ColorDrawable(0xbb000000));
-            TextView tv = new TextView(context);
-            tv.setTextColor(getResources().getColor(R.color.red));
-            tv.setTextSize(30);
-            tv.setText("CatFiterCategoryButton");
-            mPopupWindow.setContentView(tv);
+            mPopupWindow.setContentView(gv);
         }
         mPopupWindow.showAsDropDown(this);
+    }
+        public void initView(String groupName, List<CategoryChildBean> list){
+            if(groupName==null || list == null || list.size()==0){
+                CommonUtils.showLongToast("数据获取异常，请重试！");
+                return;
+            }
+            this.setText(groupName);
+            adapter = new CatFiterAdapter(context,list);
+            gv = new GridView(context);
+            gv.setNumColumns(2);
+            gv.setHorizontalSpacing(10);
+            gv.setVerticalSpacing(10);
+            gv.setAdapter(adapter);
+        }
+    public void release(){
+        if(mPopupWindow!=null){
+            mPopupWindow.dismiss();
+        }
     }
 
 }
