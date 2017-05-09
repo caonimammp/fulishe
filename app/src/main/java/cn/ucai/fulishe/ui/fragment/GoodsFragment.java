@@ -199,4 +199,9 @@ public class GoodsFragment extends Fragment {
             }
         }
     }
+    public void sortGoods(int sortBy){
+        if(adapter!=null){
+            adapter.sortGoods(sortBy);
+        }
+    }
 }
