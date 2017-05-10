@@ -2,7 +2,6 @@ package cn.ucai.fulishe.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -17,6 +16,7 @@ import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.Result;
 import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.local.UserDao;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModer;
@@ -93,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
     private void loginSuccess(User user) {
         FuLiCenterApplication.getInstance().setCurrentUser(user);
         SharePrefrenceUtils.getInstance().setUserName(username);
+        UserDao dao=new UserDao(LoginActivity.this);
+        dao.saveUser(user);
         finish();
     }
 

@@ -26,6 +26,11 @@ public class User {
     private String mavatarSuffix;
     private int mavatarType;
     private String mavatarLastUpdateTime;
+    public User(){
+
+    }
+    public User(String username, String nick, int id, String path, Object o, int i, Object o1) {
+    }
 
     public String getMuserName() {
         return muserName;
