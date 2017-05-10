@@ -19,6 +19,7 @@ import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModer;
 import cn.ucai.fulishe.data.utils.L;
+import cn.ucai.fulishe.data.utils.MD5;
 import cn.ucai.fulishe.data.utils.ResultUtils;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         initDialog();
         if (checkInput()){
             model = new UserModer();
-            model.register(RegisterActivity.this, username, nick, password, new OnCompleteListener<String>() {
+            model.register(RegisterActivity.this, username, nick, MD5.getMessageDigest(password), new OnCompleteListener<String>() {
                 @Override
                 public void onSuccess(String s) {
                     if(s!=null){
