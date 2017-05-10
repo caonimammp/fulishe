@@ -67,13 +67,13 @@ public class CatFiterCategoryButton extends Button {
         }
         mPopupWindow.showAsDropDown(this);
     }
-        public void initView(String groupName, List<CategoryChildBean> list){
+        public void initView(String groupName, ArrayList<CategoryChildBean> list){
             if(groupName==null || list == null || list.size()==0){
                 CommonUtils.showLongToast("数据获取异常，请重试！");
                 return;
             }
             this.setText(groupName);
-            adapter = new CatFiterAdapter(context,list);
+            adapter = new CatFiterAdapter(context,list,groupName);
             gv = new GridView(context);
             gv.setNumColumns(2);
             gv.setHorizontalSpacing(10);
