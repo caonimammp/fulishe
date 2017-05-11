@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBOpenHelper extends SQLiteOpenHelper{
     private final static int versionNo = 1;
 
-    public static final String USER_TABALE_NAME = "t_fulicenter_user";
+    public static final String USER_TABALE_NAME = "t_fulishe_user";
     public static final String USER_COLUMN_NAME = "m_user_name";
     public static final String USER_COLUMN_NICK = "m_user_nick";
     public static final String USER_COLUMN_AVATAR = "m_user_avatar_id";

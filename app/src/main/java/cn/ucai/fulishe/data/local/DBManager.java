@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.utils.L;
 
 
 public class DBManager {
@@ -26,7 +27,8 @@ public class DBManager {
             ContentValues values = new ContentValues();
             values.put(DBOpenHelper.USER_COLUMN_NAME,user.getMuserName());
             values.put(DBOpenHelper.USER_COLUMN_NICK,user.getMuserNick());
-            long insert = database.insert(DBOpenHelper.USER_TABALE_NAME, null, values);
+            long insert = database.replace(DBOpenHelper.USER_TABALE_NAME, null, values);
+            L.e("main","DBManager.saveUser.insert:"+insert);
             return insert > 0 ? true : false;
         }
         return false;
@@ -37,12 +39,13 @@ public class DBManager {
         SQLiteDatabase database = sHelper.getWritableDatabase();
         User user = new User();
         if (database.isOpen()) {
-            String sql = "select * from" + sHelper.USER_TABALE_NAME + " where " + sHelper.USER_COLUMN_NAME + "=?";
+            String sql = "select * from " + sHelper.USER_TABALE_NAME + " where " + sHelper.USER_COLUMN_NAME + "=?";
             Cursor cursor = database.rawQuery(sql, new String[]{username});
             if (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex(sHelper.USER_COLUMN_NAME));
+                int id = cursor.getInt(cursor.getColumnIndex(sHelper.USER_COLUMN_AVATAR));
                 String nick = cursor.getString(cursor.getColumnIndex(sHelper.USER_COLUMN_NICK));
                 String path = cursor.getString(cursor.getColumnIndex((sHelper.USER_COLUMN_AVATAR_PATH)));
+                L.e("main","DBManager.username:"+username+",nick:"+nick);
                 user = new User(username, nick, id, path, null, 0, null);
             }
         }

@@ -29,7 +29,15 @@ public class User {
     public User(){
 
     }
-    public User(String username, String nick, int id, String path, Object o, int i, Object o1) {
+
+    public User(String muserName, String muserNick, int mavatarId, String mavatarPath, String mavatarSuffix, int mavatarType, String mavatarLastUpdateTime) {
+        this.muserName = muserName;
+        this.muserNick = muserNick;
+        this.mavatarId = mavatarId;
+        this.mavatarPath = mavatarPath;
+        this.mavatarSuffix = mavatarSuffix;
+        this.mavatarType = mavatarType;
+        this.mavatarLastUpdateTime = mavatarLastUpdateTime;
     }
 
     public String getMuserName() {

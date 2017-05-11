@@ -150,9 +150,7 @@ public class GoodsFragment extends Fragment {
                 pd.dismiss();
                 setLayoutVisibility(false);
                 setListVisibility(true);
-                L.e("main","result="+result);
                 if(result!=null){
-                    L.e("main","result.length="+result.length);
                     ArrayList<NewGoodsBean> list = ResultUtils.array2List(result);
                     upDataUI(list);
                 }else{

@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                 setUserNameMsg(R.string.login_fail_error_password);
                             }else {
                                 User user = result.getRetData();
+                                L.e("main","LoginActivity.login.user:"+user);
                                 loginSuccess(user);
                             }
                         }
