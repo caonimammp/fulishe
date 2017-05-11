@@ -12,12 +12,14 @@ import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.ui.fragment.BoutiqueFragment;
 import cn.ucai.fulishe.ui.fragment.CategoryFragment;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
+import cn.ucai.fulishe.ui.fragment.PersonalFragment;
 
 public class MainActivity extends AppCompatActivity {
     GoodsFragment gf;
     BoutiqueFragment bf;
-    Fragment[] mFragments;
     CategoryFragment cf;
+    PersonalFragment pf;
+    Fragment[] mFragments;
     int index, currentIndex;
 
     @Override
@@ -32,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
         gf = new GoodsFragment();
         bf = new BoutiqueFragment();
         cf = new CategoryFragment();
+        pf = new PersonalFragment();
         mFragments = new Fragment[5];
         mFragments[0] = gf;
         mFragments[1] = bf;
         mFragments[2] = cf;
+        mFragments[4] = pf;
+
     }
 
     public void showFragment() {
