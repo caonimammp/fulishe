@@ -11,6 +11,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.FuLiCenterApplication;
+import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.local.UserDao;
+import cn.ucai.fulishe.data.utils.L;
+import cn.ucai.fulishe.data.utils.SharePrefrenceUtils;
 
 public class SplashActivity extends AppCompatActivity {
     private final static int time = 5000;
@@ -30,6 +35,28 @@ public class SplashActivity extends AppCompatActivity {
     @OnClick(R.id.tvSkip) void setTvSkip(){
         cdt.cancel();
         cdt.onFinish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(FuLiCenterApplication.getInstance().getCurrentUser()!=null){
+                    String username = SharePrefrenceUtils.getInstance().getUserName();
+                    L.e("main",username+"");
+                    if(username!=null){
+                        UserDao dao = new UserDao(SplashActivity.this);
+                        User user = dao.getUser(username);
+                        L.e("main",user+"");
+                        if(user!=null){
+                            FuLiCenterApplication.getInstance().setCurrentUser(user);
+                        }
+                    }
+                }
+            }
+        }).start();
     }
 
     class MyCountDataTimer extends CountDownTimer {
@@ -55,5 +82,6 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         }
+
     }
 }

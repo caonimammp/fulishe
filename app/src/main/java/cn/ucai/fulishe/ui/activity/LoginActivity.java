@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                                 User user = result.getRetData();
                                 loginSuccess(user);
                             }
-
                         }
                         dismissDialog();
                     }
