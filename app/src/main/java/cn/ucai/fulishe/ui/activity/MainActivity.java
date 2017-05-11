@@ -125,4 +125,13 @@ public class MainActivity extends AppCompatActivity {
             setFragment();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(index==4&&FuLiCenterApplication.getInstance().getCurrentUser()==null){
+            index=0;
+            setFragment();
+        }
+    }
 }

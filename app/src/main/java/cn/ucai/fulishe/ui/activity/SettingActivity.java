@@ -1,5 +1,6 @@
 package cn.ucai.fulishe.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -57,5 +58,6 @@ public class SettingActivity extends AppCompatActivity {
         FuLiCenterApplication.getInstance().setCurrentUser(null);
         SharePrefrenceUtils.getInstance().removeUser();
         finish();
+        startActivity(new Intent(SettingActivity.this,LoginActivity.class));
     }
 }
