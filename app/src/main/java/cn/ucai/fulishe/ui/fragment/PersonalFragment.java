@@ -49,7 +49,7 @@ public class PersonalFragment extends Fragment {
         super.onResume();
         user = FuLiCenterApplication.getInstance().getCurrentUser();
         if(user!=null){
-            tvUserName.setText(user.getMuserName());
+            tvUserName.setText(user.getMuserNick());
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),getContext(),ivUserAvaratorImg);
         }
     }

@@ -11,4 +11,5 @@ import cn.ucai.fulishe.data.bean.User;
 public interface IUserModel {
     void login(Context context,String username,String password,OnCompleteListener<String> listener);
     void register(Context context,String username,String nick,String password,OnCompleteListener<String> listener);
+    void upDataNick(Context context,String username,String nick,OnCompleteListener<String> listener);
 }

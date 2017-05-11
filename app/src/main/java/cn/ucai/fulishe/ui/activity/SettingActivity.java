@@ -12,7 +12,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
+import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.utils.ImageLoader;
 import cn.ucai.fulishe.data.utils.SharePrefrenceUtils;
 
@@ -32,13 +34,12 @@ public class SettingActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initData();
     }
-
     private void initData() {
         User user = FuLiCenterApplication.getInstance().getCurrentUser();
-        if(user!=null){
+        if (user != null) {
             tvNick.setText(user.getMuserNick());
             tvUserName.setText(user.getMuserName());
-            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),SettingActivity.this,ivAvator);
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), SettingActivity.this, ivAvator);
         }
     }
 
@@ -58,6 +59,19 @@ public class SettingActivity extends AppCompatActivity {
         FuLiCenterApplication.getInstance().setCurrentUser(null);
         SharePrefrenceUtils.getInstance().removeUser();
         finish();
-        startActivity(new Intent(SettingActivity.this,LoginActivity.class));
+        startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+    }
+
+    @OnClick(R.id.Layout_Nick)
+    public void upDataNick() {
+        startActivityForResult(new Intent(SettingActivity.this,UpDataNickActivity.class), I.REQUEST_CODE_NICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==I.REQUEST_CODE_NICK&&resultCode==RESULT_OK){
+            initData();
+        }
     }
 }

@@ -27,7 +27,6 @@ public class User {
     private int mavatarType;
     private String mavatarLastUpdateTime;
     public User(){
-
     }
 
     public User(String muserName, String muserNick, int mavatarId, String mavatarPath, String mavatarSuffix, int mavatarType, String mavatarLastUpdateTime) {
