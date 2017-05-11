@@ -1,6 +1,7 @@
 package cn.ucai.fulishe.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.utils.ImageLoader;
+import cn.ucai.fulishe.ui.activity.SettingActivity;
 
 
 public class PersonalFragment extends Fragment {
@@ -39,6 +41,12 @@ public class PersonalFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         user = FuLiCenterApplication.getInstance().getCurrentUser();
         if(user!=null){
             tvUserName.setText(user.getMuserName());
@@ -54,5 +62,6 @@ public class PersonalFragment extends Fragment {
 
     @OnClick(R.id.Setting)
     public void onViewClicked() {
+        startActivity(new Intent(getContext(), SettingActivity.class));
     }
 }

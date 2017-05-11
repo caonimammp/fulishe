@@ -6,9 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RadioButton;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
+import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.ui.fragment.BoutiqueFragment;
 import cn.ucai.fulishe.ui.fragment.CategoryFragment;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
@@ -21,11 +25,23 @@ public class MainActivity extends AppCompatActivity {
     PersonalFragment pf;
     Fragment[] mFragments;
     int index, currentIndex;
+    RadioButton[] mRadioButtons;
+    @BindView(R.id.rbNewGoods)
+    RadioButton rbNewGoods;
+    @BindView(R.id.rbBoutique)
+    RadioButton rbBoutique;
+    @BindView(R.id.rbCategory)
+    RadioButton rbCategory;
+    @BindView(R.id.rbCart)
+    RadioButton rbCart;
+    @BindView(R.id.rbContact)
+    RadioButton rbContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         initFragment();
         showFragment();
     }
@@ -40,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
         mFragments[1] = bf;
         mFragments[2] = cf;
         mFragments[4] = pf;
-
+        mRadioButtons = new RadioButton[5];
+        mRadioButtons[0] = rbNewGoods;
+        mRadioButtons[1] = rbBoutique;
+        mRadioButtons[2] = rbCategory;
+        mRadioButtons[3] = rbCart;
+        mRadioButtons[4] = rbContact;
     }
 
     public void showFragment() {
@@ -67,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 index = 2;
                 break;
             case R.id.rbContact:
-                if(FuLiCenterApplication.getInstance().getCurrentUser()==null){
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                }else {
-                    index =4;
+                if (FuLiCenterApplication.getInstance().getCurrentUser() == null) {
+                    startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),I.REQUEST_CODE_LOGIN);
+                } else {
+                    index = 4;
                 }
                 break;
         }
@@ -87,7 +108,21 @@ public class MainActivity extends AppCompatActivity {
             ft.show(mFragments[index]).commit();
         }
         currentIndex = index;
+        setRedioButton();
     }
 
+    private void setRedioButton() {
+        for (int i = 0; i < mRadioButtons.length; i++) {
+            mRadioButtons[i].setChecked(i == index ? true : false);
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode== I.REQUEST_CODE_LOGIN){
+            index=4;
+            setFragment();
+        }
+    }
 }

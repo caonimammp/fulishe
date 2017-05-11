@@ -56,5 +56,6 @@ public class SettingActivity extends AppCompatActivity {
     private void exit() {
         FuLiCenterApplication.getInstance().setCurrentUser(null);
         SharePrefrenceUtils.getInstance().removeUser();
+        finish();
     }
 }
