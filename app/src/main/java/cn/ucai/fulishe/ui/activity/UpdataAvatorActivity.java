@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModer;
 import cn.ucai.fulishe.data.utils.CommonUtils;
+import cn.ucai.fulishe.data.utils.ImageLoader;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
 import cn.ucai.fulishe.ui.view.CircleImageView;
@@ -63,7 +65,7 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
     //请求写入外部存储
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 104;
     //头像1
-    private CircleImageView headImage;
+    private ImageView headImage;
     //头像2
     //调用照相机返回图片临时文件
     private File tempFile;
@@ -77,7 +79,7 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updata_avator);
         ButterKnife.bind(this);
-        headImage = (CircleImageView) findViewById(R.id.head_image);
+        headImage = (ImageView) findViewById(R.id.head_image);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.Layout_UpDataAvatar);
         layout.setOnClickListener(this);
         //创建拍照存储的临时文件
@@ -362,34 +364,39 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
     public void onViewClicked() {
         model = new UserModer();
         User user = FuLiCenterApplication.getInstance().getCurrentUser();
-        initDialog();
-        model.upDataAvatar(UpdataAvatorActivity.this, user.getMuserName(), null, avatarFile,
-                new OnCompleteListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        if (s != null) {
-                            Result<User> result = ResultUtils.getResultFromJson(s, User.class);
-                            if (result != null) {
-                                if (result.getRetCode() == I.MSG_UPLOAD_AVATAR_FAIL) {
-                                    CommonUtils.showLongToast(R.string.update_user_avatar_fail);
-                                } else {
-                                    upLoadSuccess(result.getRetData());
+        if(avatarFile!=null){
+            initDialog();
+            model.upDataAvatar(UpdataAvatorActivity.this, user.getMuserName(), null, avatarFile,
+                    new OnCompleteListener<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            if (s != null) {
+                                Result<User> result = ResultUtils.getResultFromJson(s, User.class);
+                                if (result != null) {
+                                    if (result.getRetCode() == I.MSG_UPLOAD_AVATAR_FAIL) {
+                                        CommonUtils.showLongToast(R.string.update_user_avatar_fail);
+                                    } else {
+                                        upLoadSuccess(result.getRetData());
+                                    }
                                 }
                             }
+                            dismissDialog();
                         }
-                        dismissDialog();
-                    }
 
-                    @Override
-                    public void onError(String error) {
-                        dismissDialog();
-                    }
-                });
+                        @Override
+                        public void onError(String error) {
+                            dismissDialog();
+                        }
+                    });
+        }else {
+            CommonUtils.showLongToast("请选择图片");
+        }
+
     }
 
     public void initDialog() {
         pd = new ProgressDialog(UpdataAvatorActivity.this);
-        pd.setMessage(getString(R.string.update_user_nick));
+        pd.setMessage(getString(R.string.update_user_avatar));
         pd.show();
     }
 
