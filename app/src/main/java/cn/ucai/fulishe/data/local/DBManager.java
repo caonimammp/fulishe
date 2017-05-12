@@ -27,6 +27,7 @@ public class DBManager {
             ContentValues values = new ContentValues();
             values.put(DBOpenHelper.USER_COLUMN_NAME,user.getMuserName());
             values.put(DBOpenHelper.USER_COLUMN_NICK,user.getMuserNick());
+            values.put(DBOpenHelper.USER_COLUMN_AVATAR_PATH,user.getMavatarPath());
             long insert = database.replace(DBOpenHelper.USER_TABALE_NAME, null, values);
             L.e("main","DBManager.saveUser.insert:"+insert);
             return insert > 0 ? true : false;

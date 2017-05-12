@@ -11,6 +11,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
@@ -34,11 +35,12 @@ public class LoginActivity extends AppCompatActivity {
     String username,password;
     IUserModel model;
     ProgressDialog pd;
+    Unbinder bind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
     }
 
     @OnClick({R.id.ivBack, R.id.btnLogin, R.id.btnRegister})
@@ -139,6 +141,14 @@ public class LoginActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             String username = data.getStringExtra(I.User.USER_NAME);
             etUserName.setText(username);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(bind!=null){
+            bind.unbind();
         }
     }
 }
