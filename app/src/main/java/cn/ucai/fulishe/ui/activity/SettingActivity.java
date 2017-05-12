@@ -43,7 +43,7 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.ivBack, R.id.btnExit,R.id.Layout_Avator})
+    @OnClick({R.id.ivBack, R.id.btnExit,R.id.Layout_Avator,R.id.Layout_Nick})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
@@ -53,7 +53,10 @@ public class SettingActivity extends AppCompatActivity {
                 exit();
                 break;
             case R.id.Layout_Avator:
-                startActivity(new Intent(SettingActivity.this,UpdataAvatorActivity.class));
+                startActivityForResult(new Intent(SettingActivity.this,UpdataAvatorActivity.class),I.REQUEST_CODE_AVATAR);
+                break;
+            case R.id.Layout_Nick:
+                startActivityForResult(new Intent(SettingActivity.this,UpDataNickActivity.class), I.REQUEST_CODE_NICK);
                 break;
         }
     }
@@ -76,5 +79,9 @@ public class SettingActivity extends AppCompatActivity {
         if(requestCode==I.REQUEST_CODE_NICK&&resultCode==RESULT_OK){
             initData();
         }
+        if(requestCode==I.REQUEST_CODE_AVATAR&&resultCode==RESULT_OK){
+            initData();
+        }
+
     }
 }

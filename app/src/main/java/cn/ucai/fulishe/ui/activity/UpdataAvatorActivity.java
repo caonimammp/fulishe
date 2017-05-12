@@ -1,6 +1,7 @@
 package cn.ucai.fulishe.ui.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,10 +26,25 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.FuLiCenterApplication;
+import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.Result;
+import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.local.UserDao;
+import cn.ucai.fulishe.data.net.IUserModel;
+import cn.ucai.fulishe.data.net.OnCompleteListener;
+import cn.ucai.fulishe.data.net.UserModer;
+import cn.ucai.fulishe.data.utils.CommonUtils;
 import cn.ucai.fulishe.data.utils.L;
+import cn.ucai.fulishe.data.utils.ResultUtils;
 import cn.ucai.fulishe.ui.view.CircleImageView;
 
 
@@ -51,13 +67,16 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
     //头像2
     //调用照相机返回图片临时文件
     private File tempFile;
-
-
+    Bitmap bitMap;
+    IUserModel model;
+    File avatarFile;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updata_avator);
+        ButterKnife.bind(this);
         headImage = (CircleImageView) findViewById(R.id.head_image);
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.Layout_UpDataAvatar);
         layout.setOnClickListener(this);
@@ -135,7 +154,8 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
                 //权限判断
 
                 if (ContextCompat.checkSelfPermission(UpdataAvatorActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {L.e("main","2222222222222222");
+                        != PackageManager.PERMISSION_GRANTED) {
+                    L.e("main", "2222222222222222");
                     //申请WRITE_EXTERNAL_STORAGE权限
                     ActivityCompat.requestPermissions(UpdataAvatorActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
@@ -143,7 +163,7 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
                 } else {
                     //跳转到调用系统相机
                     gotoCarema();
-                    L.e("main","22222222222222221");
+                    L.e("main", "22222222222222221");
                 }
                 popupWindow.dismiss();
             }
@@ -246,16 +266,49 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
                         return;
                     }
                     String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
-                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-                        headImage.setImageBitmap(bitMap);
-                    }
-                    //此处后面可以将bitMap转为二进制上传后台网络
-                    //......
-
+                    bitMap = BitmapFactory.decodeFile(cropImagePath);
+                    headImage.setImageBitmap(bitMap);
+                }
+                //此处后面可以将bitMap转为二进制上传后台网络
+                //......
+                avatarFile = saveBitmapFile(bitMap);
                 break;
         }
     }
 
+    private File saveBitmapFile(Bitmap bitmap) {
+        if (bitmap != null) {
+            String imagePath = getAvatatPath(UpdataAvatorActivity.this, I.AVATAR_TYPE) + "/" + getAvatarName() + ".jpg";
+            File file = new File(imagePath);
+            try {
+                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                bos.flush();
+                bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return file;
+        }
+        return null;
+    }
+
+    private String getAvatatPath(Context context, String path) {
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File folder = new File(dir,path);
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+        return folder.getAbsolutePath();
+
+    }
+
+    String avatarName;
+
+    private String getAvatarName() {
+        avatarName = String.valueOf(System.currentTimeMillis());
+        return avatarName;
+    }
 
     /**
      * 打开截图界面
@@ -305,4 +358,50 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
     }
 
 
+    @OnClick(R.id.btn_UpData)
+    public void onViewClicked() {
+        model = new UserModer();
+        User user = FuLiCenterApplication.getInstance().getCurrentUser();
+        initDialog();
+        model.upDataAvatar(UpdataAvatorActivity.this, user.getMuserName(), null, avatarFile,
+                new OnCompleteListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        if(s!=null){
+                            Result<User> result = ResultUtils.getResultFromJson(s,User.class);
+                            if(result!=null){
+                                if(result.getRetCode()==I.MSG_UPLOAD_AVATAR_FAIL){
+                                    CommonUtils.showLongToast(R.string.update_user_avatar_fail);
+                                }else {
+                                    upLoadSuccess(result.getRetData());
+                                }
+                            }
+                        }
+                        dismissDialog();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        dismissDialog();
+                    }
+                });
+    }
+    public void initDialog(){
+        pd = new ProgressDialog(UpdataAvatorActivity.this);
+        pd.setMessage(getString(R.string.update_user_nick));
+        pd.show();
+    }
+    public void dismissDialog(){
+        if(pd!=null&&pd.isShowing()){
+            pd.dismiss();
+        }
+    }
+    private void upLoadSuccess(User user) {
+        CommonUtils.showLongToast(R.string.update_user_avatar_success);
+        UserDao dao = new UserDao(UpdataAvatorActivity.this);
+        dao.saveUser(user);
+        FuLiCenterApplication.getInstance().setCurrentUser(user);
+        setResult(RESULT_OK);
+        finish();
+    }
 }

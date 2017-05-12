@@ -45,7 +45,7 @@ public class DBManager {
                 int id = cursor.getInt(cursor.getColumnIndex(sHelper.USER_COLUMN_AVATAR));
                 String nick = cursor.getString(cursor.getColumnIndex(sHelper.USER_COLUMN_NICK));
                 String path = cursor.getString(cursor.getColumnIndex((sHelper.USER_COLUMN_AVATAR_PATH)));
-                L.e("main","DBManager.username:"+username+",nick:"+nick);
+                L.e("main","path="+path);
                 user = new User(username, nick, id, path, null, 0, null);
             }
         }
