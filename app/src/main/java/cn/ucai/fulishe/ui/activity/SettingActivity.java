@@ -43,7 +43,7 @@ public class SettingActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.ivBack, R.id.btnExit})
+    @OnClick({R.id.ivBack, R.id.btnExit,R.id.Layout_Avator})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
@@ -51,6 +51,9 @@ public class SettingActivity extends AppCompatActivity {
                 break;
             case R.id.btnExit:
                 exit();
+                break;
+            case R.id.Layout_Avator:
+                startActivity(new Intent(SettingActivity.this,UpdataAvatorActivity.class));
                 break;
         }
     }
