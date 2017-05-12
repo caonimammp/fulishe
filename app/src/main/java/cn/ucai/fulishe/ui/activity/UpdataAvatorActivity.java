@@ -295,8 +295,8 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
 
     private String getAvatatPath(Context context, String path) {
         File dir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File folder = new File(dir,path);
-        if(!folder.exists()){
+        File folder = new File(dir, path);
+        if (!folder.exists()) {
             folder.mkdir();
         }
         return folder.getAbsolutePath();
@@ -367,12 +367,12 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
                 new OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        if(s!=null){
-                            Result<User> result = ResultUtils.getResultFromJson(s,User.class);
-                            if(result!=null){
-                                if(result.getRetCode()==I.MSG_UPLOAD_AVATAR_FAIL){
+                        if (s != null) {
+                            Result<User> result = ResultUtils.getResultFromJson(s, User.class);
+                            if (result != null) {
+                                if (result.getRetCode() == I.MSG_UPLOAD_AVATAR_FAIL) {
                                     CommonUtils.showLongToast(R.string.update_user_avatar_fail);
-                                }else {
+                                } else {
                                     upLoadSuccess(result.getRetData());
                                 }
                             }
@@ -386,22 +386,30 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
     }
-    public void initDialog(){
+
+    public void initDialog() {
         pd = new ProgressDialog(UpdataAvatorActivity.this);
         pd.setMessage(getString(R.string.update_user_nick));
         pd.show();
     }
-    public void dismissDialog(){
-        if(pd!=null&&pd.isShowing()){
+
+    public void dismissDialog() {
+        if (pd != null && pd.isShowing()) {
             pd.dismiss();
         }
     }
+
     private void upLoadSuccess(User user) {
         CommonUtils.showLongToast(R.string.update_user_avatar_success);
         UserDao dao = new UserDao(UpdataAvatorActivity.this);
         dao.saveUser(user);
         FuLiCenterApplication.getInstance().setCurrentUser(user);
         setResult(RESULT_OK);
+        finish();
+    }
+
+    @OnClick(R.id.ivBack)
+    public void onBack() {
         finish();
     }
 }
