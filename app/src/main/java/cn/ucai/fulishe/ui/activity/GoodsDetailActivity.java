@@ -13,13 +13,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.AlbumsBean;
 import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
+import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.PropertiesBean;
+import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
+import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
+import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.ui.view.FlowIndicator;
 import cn.ucai.fulishe.ui.view.SlideAutoLoopView;
@@ -31,6 +36,7 @@ import cn.ucai.fulishe.ui.view.SlideAutoLoopView;
 public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
     IGoodsModel model;
+    IUserModel userModel;
     @BindView(R.id.tvBoutiqueCate)
     TextView tvBoutiqueCate;
     @BindView(R.id.tv_good_name_english)
@@ -54,6 +60,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     Unbinder bind;
     @BindView(R.id.iv_good_collect)
     ImageView ivGoodCollect;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,11 +77,13 @@ public class GoodsDetailActivity extends AppCompatActivity {
             finish();
         } else {
             model = new GoodsModel();
+            userModel = new UserModel();
             loadData();
         }
     }
 
     private void loadData() {
+        user = FuLiCenterApplication.getInstance().getCurrentUser();
         model.loadGoodsDetail(GoodsDetailActivity.this, goodsId, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
@@ -92,8 +101,25 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
             }
         });
+        upCollectUI();
     }
+    private void upCollectUI(){
+        user = FuLiCenterApplication.getInstance().getCurrentUser();
+        if(user!=null){
+            userModel.isCollect(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
+                    new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+                            ivGoodCollect.setImageResource(result!=null&&result.isSuccess()?R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
+                        }
 
+                        @Override
+                        public void onError(String error) {
+                            ivGoodCollect.setImageResource(R.mipmap.bg_collect_in);
+                        }
+                    });
+        }
+    }
     private void showData(GoodsDetailsBean bean) {
         tvGoodNameEnglish.setText(bean.getGoodsEnglishName());
         tvGoodName.setText(bean.getGoodsName());
