@@ -73,10 +73,8 @@ public class CategoryFragment extends Fragment {
         model.loadCategoryGroup(getContext(), new OnCompleteListener<CategoryGroupBean[]>() {
             @Override
             public void onSuccess(CategoryGroupBean[] result) {
-                L.e("main", "result=" + result);
                 pd.dismiss();
                 if (result != null) {
-                    L.e("main", "result.length=" + result.length);
                     groupList = ResultUtils.array2List(result);
                     for (int i = 0; i<groupList.size();i++){
                         childList.add(new ArrayList<CategoryChildBean>());
@@ -91,7 +89,6 @@ public class CategoryFragment extends Fragment {
             public void onError(String error) {
                 pd.dismiss();
                 setListVisibility(false);
-                L.e("mian", "error" + error);
             }
         });
     }
@@ -102,10 +99,8 @@ public class CategoryFragment extends Fragment {
             public void onSuccess(CategoryChildBean[] result) {
                 groupCount++;
 
-                L.e("main", "result=" + result);
 
                 if (result != null) {
-                    L.e("main", "result.length=" + result.length);
                     ArrayList<CategoryChildBean> list = ResultUtils.array2List(result);
                     childList.set(index,list);
                 }
@@ -118,7 +113,6 @@ public class CategoryFragment extends Fragment {
 
             @Override
             public void onError(String error) {
-                L.e("mian", "error" + error);
                 groupCount++;
                 if (groupCount == groupList.size()) {
                     pd.dismiss();

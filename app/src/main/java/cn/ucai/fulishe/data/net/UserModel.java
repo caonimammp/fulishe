@@ -7,6 +7,7 @@ import java.io.File;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
 import okhttp3.internal.Util;
 
@@ -14,7 +15,7 @@ import okhttp3.internal.Util;
  * Created by Administrator on 2017/5/10.
  */
 
-public class UserModer implements IUserModel {
+public class UserModel implements IUserModel {
     @Override
     public void login(Context context, String username, String password, OnCompleteListener<String> listener) {
         OkHttpUtils<String> utils = new OkHttpUtils<>(context);
@@ -62,7 +63,7 @@ public class UserModer implements IUserModel {
     public void upCollectsCount(Context context, String username, OnCompleteListener<MessageBean> listener) {
         OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
-                .addParam(I.User.USER_NAME,username)
+                .addParam(I.Collect.USER_NAME,username)
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }

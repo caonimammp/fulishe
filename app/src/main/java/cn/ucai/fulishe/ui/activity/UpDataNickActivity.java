@@ -18,7 +18,7 @@ import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.local.UserDao;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
-import cn.ucai.fulishe.data.net.UserModer;
+import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.CommonUtils;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
@@ -39,7 +39,7 @@ public class UpDataNickActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        model = new UserModer();
+        model = new UserModel();
         User user = FuLiCenterApplication.getInstance().getCurrentUser();
         if(user!=null){
             etUpDataNick.setText(user.getMuserNick());

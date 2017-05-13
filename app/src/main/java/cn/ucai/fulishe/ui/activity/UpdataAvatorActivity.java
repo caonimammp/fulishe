@@ -42,12 +42,10 @@ import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.local.UserDao;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
-import cn.ucai.fulishe.data.net.UserModer;
+import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.CommonUtils;
-import cn.ucai.fulishe.data.utils.ImageLoader;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
-import cn.ucai.fulishe.ui.view.CircleImageView;
 
 
 /**
@@ -362,7 +360,7 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
 
     @OnClick(R.id.btn_UpData)
     public void onViewClicked() {
-        model = new UserModer();
+        model = new UserModel();
         User user = FuLiCenterApplication.getInstance().getCurrentUser();
         if(avatarFile!=null){
             initDialog();
