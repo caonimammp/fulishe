@@ -6,6 +6,7 @@ import java.io.File;
 
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.MessageBean;
+import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
@@ -81,6 +82,17 @@ public class UserModel implements IUserModel {
     @Override
     public void isCollect(Context context, String Id, String username, OnCompleteListener<MessageBean> listener) {
         collectAction(I.ACTION_ISCOLLECT,context,Id,username,listener);
+    }
+
+    @Override
+    public void upDataCollectGoods(Context context, String username, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener) {
+        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.User.USER_NAME,username)
+                .addParam(I.PAGE_ID,pageId+"")
+                .addParam(I.PAGE_SIZE,pageSize+"")
+                .targetClass(NewGoodsBean[].class)
+                .execute(listener);
     }
 
     private void collectAction(int action,Context context,String goodsId,String username,OnCompleteListener<MessageBean> listener){

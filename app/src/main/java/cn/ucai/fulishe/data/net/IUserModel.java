@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulishe.data.bean.MessageBean;
+import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.bean.User;
 
 /**
@@ -20,4 +21,5 @@ public interface IUserModel {
     void addColltct(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
     void removeCollect(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
     void isCollect(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
+    void upDataCollectGoods(Context context, String username, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener);
 }
