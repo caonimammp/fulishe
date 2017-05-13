@@ -1,8 +1,10 @@
 package cn.ucai.fulishe.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -61,6 +63,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @BindView(R.id.iv_good_collect)
     ImageView ivGoodCollect;
     User user;
+    boolean isCollect = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,24 +104,30 @@ public class GoodsDetailActivity extends AppCompatActivity {
 
             }
         });
-        upCollectUI();
+        isCollect();
     }
-    private void upCollectUI(){
+
+    private void isCollect() {
         user = FuLiCenterApplication.getInstance().getCurrentUser();
-        if(user!=null){
+        if (user != null) {
             userModel.isCollect(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
                     new OnCompleteListener<MessageBean>() {
                         @Override
                         public void onSuccess(MessageBean result) {
-                            ivGoodCollect.setImageResource(result!=null&&result.isSuccess()?R.mipmap.bg_collect_out:R.mipmap.bg_collect_in);
+                            isCollect=result != null && result.isSuccess()?true:false;
+                            upCollectUI();
                         }
 
                         @Override
                         public void onError(String error) {
-                            ivGoodCollect.setImageResource(R.mipmap.bg_collect_in);
+                            isCollect=false;
+                            upCollectUI();
                         }
                     });
         }
+    }
+    private void upCollectUI(){
+        ivGoodCollect.setImageResource(isCollect? R.mipmap.bg_collect_out : R.mipmap.bg_collect_in);
     }
     private void showData(GoodsDetailsBean bean) {
         tvGoodNameEnglish.setText(bean.getGoodsEnglishName());
@@ -159,10 +168,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
         return 0;
     }
 
-    @OnClick(R.id.ivBack)
-    public void onViewClicked() {
-        finish();
-    }
 
     @Override
     protected void onDestroy() {
@@ -172,6 +177,64 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }
         if (salv != null) {
             salv.stopPlayLoop();
+        }
+    }
+
+
+    @OnClick({R.id.ivBack, R.id.iv_good_collect})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ivBack:
+                finish();
+                break;
+            case R.id.iv_good_collect:
+                user = FuLiCenterApplication.getInstance().getCurrentUser();
+                if(user == null){
+                    startActivityForResult(new Intent(GoodsDetailActivity.this,LoginActivity.class),0);
+                }else {
+                    if(isCollect){
+                        userModel.removeCollect(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
+                                new OnCompleteListener<MessageBean>() {
+                                    @Override
+                                    public void onSuccess(MessageBean result) {
+                                        if(result!=null&&result.isSuccess()){
+                                            isCollect=false;
+                                            upCollectUI();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                            upCollectUI();
+                                    }
+                                });
+                    }else {
+                        userModel.addColltct(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
+                                new OnCompleteListener<MessageBean>() {
+                                    @Override
+                                    public void onSuccess(MessageBean result) {
+                                        if(result!=null&&result.isSuccess()){
+                                            isCollect=true;
+                                            upCollectUI();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(String error) {
+                                        upCollectUI();
+                                    }
+                                });
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&requestCode==0){
+            upCollectUI();
         }
     }
 }
