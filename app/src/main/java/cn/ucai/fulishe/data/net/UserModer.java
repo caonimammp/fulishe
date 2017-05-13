@@ -5,8 +5,10 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.utils.OkHttpUtils;
+import okhttp3.internal.Util;
 
 /**
  * Created by Administrator on 2017/5/10.
@@ -53,6 +55,37 @@ public class UserModer implements IUserModel {
                 .addParam(I.AVATAR_TYPE,I.AVATAR_TYPE_USER_PATH)
                 .addFile2(file)
                 .targetClass(String.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void upCollectsCount(Context context, String username, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.User.USER_NAME,username)
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void addColltct(Context context, String Id, String username, OnCompleteListener<MessageBean> listener) {
+        collectAction(I.ACTION_ADD_COLLECT,context,Id,username,listener);
+    }
+
+    @Override
+    public void removeCollect(Context context, String Id, String username, OnCompleteListener<MessageBean> listener) {
+            collectAction(I.ACTION_DELETE_COLLECT,context,Id,username,listener);
+    }
+    private void collectAction(int action,Context context,String goodsId,String username,OnCompleteListener<MessageBean> listener){
+        String url = I.REQUEST_ADD_COLLECT;
+        if(action==I.ACTION_DELETE_COLLECT){
+            url = I.REQUEST_DELETE_COLLECT;
+        }
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(url)
+                .addParam(I.Collect.USER_NAME,username)
+                .addParam(I.Collect.GOODS_ID,goodsId)
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }

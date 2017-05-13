@@ -392,6 +392,7 @@ public class UpdataAvatorActivity extends AppCompatActivity implements View.OnCl
             CommonUtils.showLongToast("请选择图片");
         }
 
+
     }
 
     public void initDialog() {

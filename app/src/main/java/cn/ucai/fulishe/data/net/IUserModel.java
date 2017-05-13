@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.File;
 
+import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.User;
 
 /**
@@ -15,4 +16,7 @@ public interface IUserModel {
     void register(Context context,String username,String nick,String password,OnCompleteListener<String> listener);
     void upDataNick(Context context,String username,String nick,OnCompleteListener<String> listener);
     void upDataAvatar(Context context, String username, String avatarType, File file,OnCompleteListener<String> listener);
+    void upCollectsCount(Context context, String username, OnCompleteListener<MessageBean> listener);
+    void addColltct(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
+    void removeCollect(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
 }
