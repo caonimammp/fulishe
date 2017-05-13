@@ -3,9 +3,8 @@ package cn.ucai.fulishe.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +52,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @BindView(R.id.activity_goods_detail)
     RelativeLayout activityGoodsDetail;
     Unbinder bind;
+    @BindView(R.id.iv_good_collect)
+    ImageView ivGoodCollect;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         tvGoodPriceCurrent.setText(bean.getCurrencyPrice());
         wvGoodBrief.loadDataWithBaseURL(null, bean.getGoodsBrief(), I.TEXT_HTML, I.UTF_8, null);
         tvGoodPriceShop.setText(bean.getShopPrice());
-        salv.startPlayLoop(indicator,getAlbumImgUrl(bean),getAlbumImgCount(bean));
+        salv.startPlayLoop(indicator, getAlbumImgUrl(bean), getAlbumImgCount(bean));
     }
 
     private String[] getAlbumImgUrl(GoodsDetailsBean bean) {
@@ -115,9 +116,9 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private AlbumsBean[] getAlbumImg(GoodsDetailsBean bean) {
-        if(bean.getPromotePrice()!=null&&bean.getProperties().length>0){
+        if (bean.getPromotePrice() != null && bean.getProperties().length > 0) {
             PropertiesBean propertiesBean = bean.getProperties()[0];
-            if(propertiesBean!=null&&propertiesBean.getAlbums()!=null){
+            if (propertiesBean != null && propertiesBean.getAlbums() != null) {
                 return propertiesBean.getAlbums();
             }
         }
@@ -140,10 +141,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(bind!=null){
+        if (bind != null) {
             bind.unbind();
         }
-        if(salv!=null){
+        if (salv != null) {
             salv.stopPlayLoop();
         }
     }

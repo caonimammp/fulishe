@@ -19,4 +19,5 @@ public interface IUserModel {
     void upCollectsCount(Context context, String username, OnCompleteListener<MessageBean> listener);
     void addColltct(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
     void removeCollect(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
+    void isCollect(Context context,String Id,String username,OnCompleteListener<MessageBean> listener);
 }
