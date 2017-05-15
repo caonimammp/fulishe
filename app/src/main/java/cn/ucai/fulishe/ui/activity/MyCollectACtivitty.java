@@ -1,12 +1,12 @@
 package cn.ucai.fulishe.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +21,6 @@ import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.adapter.CollectGoodsAdapter;
-import cn.ucai.fulishe.data.adapter.GoodsAdapter;
 import cn.ucai.fulishe.data.bean.CollectBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.IUserModel;
@@ -54,6 +53,7 @@ public class MyCollectActivitty extends AppCompatActivity {
     ProgressDialog pd;
     GridLayoutManager manager;
     Unbinder bind;
+    ArrayList<CollectBean> collectList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +61,21 @@ public class MyCollectActivitty extends AppCompatActivity {
         bind = ButterKnife.bind(this);
         initView();
         setListener();
+        initData();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        initData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==I.REQUEST_CODE_GO_DETAILS&&resultCode==RESULT_OK){
+            int goodsId = data.getIntExtra(I.Goods.KEY_GOODS_ID,0);
+            boolean isCollect = data.getBooleanExtra(I.Goods.KEY_ISCOLLECT,true);
+            L.e("main","1111+++"+goodsId+isCollect);
+            if(!isCollect){
+                collectList.remove(new CollectBean(goodsId));
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private void initView() {
@@ -106,18 +115,10 @@ public class MyCollectActivitty extends AppCompatActivity {
                         public void onSuccess(CollectBean[] result) {
                             if (result != null) {
                                 ArrayList<CollectBean> list = ResultUtils.array2List(result);
-                                Log.i("main","MyCollecActivity.list:"+list);
                                 upDataUI(list);
                                 dismissDialog();
                                 if(adapter!=null||adapter.getItemCount()==1){
                                     setLayoutVisibility(false);
-                                }
-                                if(adapter!=null){
-                                    if(result!=null&&result.length==pageSize){
-                                        adapter.setMore(true);
-                                    }else {
-                                        adapter.setMore(false);
-                                    }
                                 }
                             }
                         }
@@ -150,7 +151,7 @@ public class MyCollectActivitty extends AppCompatActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastCompletelyVisibleItemPosition = manager.findLastCompletelyVisibleItemPosition();
-                if(adapter!=null&&adapter.getItemCount()-1==lastCompletelyVisibleItemPosition&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
+                if(adapter!=null&&adapter.getItemCount()-1>=lastCompletelyVisibleItemPosition&&newState==RecyclerView.SCROLL_STATE_IDLE&&adapter.isMore()){
                     pageId++;
                     initData();
                 }
@@ -168,15 +169,26 @@ public class MyCollectActivitty extends AppCompatActivity {
     }
     private void upDataUI(ArrayList<CollectBean> list) {
         if(adapter==null){
-            adapter=new CollectGoodsAdapter(list,MyCollectActivitty.this);
+            collectList = new ArrayList<>();
+            collectList.addAll(list);
+            adapter=new CollectGoodsAdapter(collectList,MyCollectActivitty.this);
             rvGoods.setAdapter(adapter);
             rvGoods.setLayoutManager(manager);
         }else{
             if(pageId==1){
+                collectList.clear();
+                collectList.addAll(list);
                 adapter.initData1(list);
             }else {
+                collectList.addAll(list);
+                L.e("main","MyCollecActivity.collectList.size:"+collectList.size());
+                adapter.notifyDataSetChanged();
+            }
 
-                adapter.addData1(list);
+            if(list!=null&&list.size()==pageSize){
+                adapter.setMore(true);
+            }else {
+                adapter.setMore(false);
             }
         }
     }
