@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:id="@+id/srf"
+    android:background="@color/list_background"
+    >
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srf"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/list_background">
-
+        >
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <include layout="@layout/layout_refresh_title" />
@@ -26,7 +26,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_nomore"
@@ -36,4 +36,4 @@
         android:text="@string/no_more"
         android:visibility="gone" />
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

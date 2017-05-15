@@ -10,18 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulishe.R;
+import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.CollectBean;
-import cn.ucai.fulishe.data.bean.NewGoodsBean;
+import cn.ucai.fulishe.data.bean.MessageBean;
+import cn.ucai.fulishe.data.bean.User;
+import cn.ucai.fulishe.data.net.IUserModel;
+import cn.ucai.fulishe.data.net.OnCompleteListener;
+import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.ImageLoader;
-import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.ui.activity.GoodsDetailActivity;
 
 /**
@@ -29,10 +31,11 @@ import cn.ucai.fulishe.ui.activity.GoodsDetailActivity;
  */
 
 public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<CollectBean> list1;
+    ArrayList<CollectBean> list1;
     Context context;
     boolean isMore = true;
-    int ListType;
+    IUserModel model;
+    User user;
 
     public boolean isMore() {
         return isMore;
@@ -46,51 +49,69 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public CollectGoodsAdapter(ArrayList<CollectBean> list, Context context) {
         this.list1 = list;
         this.context = context;
-        L.e("main","11111111111111111111....");
 
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        L.e("main","11111111111111111111");
-        if(viewType== I.TYPE_FOOTER){
+        if (viewType == I.TYPE_FOOTER) {
             return new FooterViewHolder(View.inflate(context, R.layout.item_footer, null));
-        }else {
+        } else {
             return new CollectGoodsViewHolder(View.inflate(context, R.layout.item_collectgoods, null));
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position==getItemCount()-1){
+        if (position == getItemCount() - 1) {
             return I.TYPE_FOOTER;
-        }else {
+        } else {
             return I.TYPE_ITEM;
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(getItemViewType(position)==I.TYPE_FOOTER){
-            ((FooterViewHolder)holder).tvFooter.setText(getFooter());
-        }else{
-                L.e("main","GoodsAdapter.list"+list1);
-                final CollectBean bean = list1.get(position);
-                ((CollectGoodsViewHolder)holder).tvGoodsName.setText(bean.getGoodsName());
-                ImageLoader.downloadImg(context, ((CollectGoodsViewHolder)holder).ivNewGoods, bean.getGoodsThumb());
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        context.startActivity(new Intent(context,GoodsDetailActivity.class)
-                                .putExtra(I.GoodsDetails.KEY_GOODS_ID,bean.getGoodsId()));
-                    }
-                });
-            }
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
+            ((FooterViewHolder) holder).tvFooter.setText(getFooter());
+        } else {
+            final CollectBean bean = list1.get(position);
+            ((CollectGoodsViewHolder) holder).tvGoodsName.setText(bean.getGoodsName());
+            ImageLoader.downloadImg(context, ((CollectGoodsViewHolder) holder).ivNewGoods, bean.getGoodsThumb());
+            ((CollectGoodsViewHolder) holder).ivDeleteCollect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model = new UserModel();
+                    user = FuLiCenterApplication.getInstance().getCurrentUser();
+                    model.removeCollect(context, String.valueOf(bean.getGoodsId()), user.getMuserName(), new OnCompleteListener<MessageBean>() {
+                        @Override
+                        public void onSuccess(MessageBean result) {
+
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+                    list1.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, GoodsDetailActivity.class)
+                            .putExtra(I.GoodsDetails.KEY_GOODS_ID, bean.getGoodsId()));
+                }
+            });
         }
+    }
+
     @Override
     public int getItemCount() {
-            return list1 != null ? list1.size() + 1 : 1;
+        return list1 != null ? list1.size() + 1 : 1;
     }
 
     public String getFooter() {
@@ -104,21 +125,22 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void initData1(ArrayList<CollectBean> list) {
-        if(this.list1!=null){
+        if (this.list1 != null) {
             this.list1.clear();
         }
-          this.list1.addAll(list);
+        this.list1.addAll(list);
+        notifyDataSetChanged();
     }
 
-
-
-    class CollectGoodsViewHolder extends RecyclerView.ViewHolder{
+    class CollectGoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivNewGoods)
         ImageView ivNewGoods;
         @BindView(R.id.tvGoodsName)
         TextView tvGoodsName;
         @BindView(R.id.layout_goods)
         LinearLayout layoutGoods;
+        @BindView(R.id.ivDeleteCollect)
+        ImageView ivDeleteCollect;
 
         CollectGoodsViewHolder(View view) {
             super(view);

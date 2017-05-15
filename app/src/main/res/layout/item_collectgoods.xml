@@ -7,15 +7,30 @@
     android:id="@+id/layout_goods"
     android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools">
-    <ImageView
-        android:id="@+id/ivNewGoods"
-        android:src="@drawable/nopic"
+    <RelativeLayout
+        android:id="@+id/layoutCart"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_weight="0.42"
-        android:scaleType="fitXY"
-        />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/ivNewGoods"
+            android:src="@drawable/nopic"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.42"
+            android:scaleType="fitXY"
+            />
+        <ImageView
+            android:id="@+id/ivDeleteCollect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/delete"/>
+    </RelativeLayout>
+
+
     <TextView
         android:id="@+id/tvGoodsName"
         android:layout_below="@+id/ivNewGoods"
