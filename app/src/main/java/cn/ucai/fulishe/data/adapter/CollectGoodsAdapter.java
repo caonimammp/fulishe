@@ -24,7 +24,9 @@ import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.ImageLoader;
+import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.ui.activity.GoodsDetailActivity;
+import cn.ucai.fulishe.ui.activity.MyCollectActivitty;
 
 /**
  * Created by Administrator on 2017/5/4.
@@ -49,7 +51,8 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public CollectGoodsAdapter(ArrayList<CollectBean> list, Context context) {
         this.list1 = list;
         this.context = context;
-
+        L.e("main","list"+list);
+        L.e("main",list.size()+"");
     }
 
 
@@ -102,8 +105,9 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, GoodsDetailActivity.class)
-                            .putExtra(I.GoodsDetails.KEY_GOODS_ID, bean.getGoodsId()));
+                    ((MyCollectActivitty)context).startActivityForResult(new Intent(context, GoodsDetailActivity.class)
+                            .putExtra(I.GoodsDetails.KEY_GOODS_ID, bean.getGoodsId())
+                    ,I.REQUEST_CODE_GO_DETAILS);
                 }
             });
         }
@@ -120,15 +124,13 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     public void addData1(ArrayList<CollectBean> list) {
-        this.list1.addAll(list);
+        list1.addAll(list);
         notifyDataSetChanged();
     }
 
     public void initData1(ArrayList<CollectBean> list) {
-        if (this.list1 != null) {
-            this.list1.clear();
-        }
-        this.list1.addAll(list);
+        list1.clear();
+        list1.addAll(list);
         notifyDataSetChanged();
     }
 
