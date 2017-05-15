@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.CartBean;
 import cn.ucai.fulishe.data.bean.CollectBean;
 import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
@@ -110,4 +111,46 @@ public class UserModel implements IUserModel {
                 .targetClass(MessageBean.class)
                 .execute(listener);
     }
+    @Override
+    public void addCart(Context context, int goodId, String username, int count, boolean isChecked, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_ADD_CART)
+                .addParam(I.Cart.GOODS_ID,String.valueOf(goodId))
+                .addParam(I.Cart.USER_NAME,username)
+                .addParam(I.Cart.COUNT, String.valueOf(count))
+                .addParam(I.Cart.IS_CHECKED, String.valueOf(isChecked))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void removeCart(Context context, int cartId, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_DELETE_CART)
+                .addParam(I.Cart.ID, String.valueOf(cartId))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void updateCart(Context context, int cartId,int count, boolean isChecked, OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_UPDATE_CART)
+                .addParam(I.Cart.ID,String.valueOf(cartId))
+                .addParam(I.Cart.COUNT, String.valueOf(count))
+                .addParam(I.Cart.IS_CHECKED, String.valueOf(isChecked))
+                .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    @Override
+    public void loadCart(Context context, String username, OnCompleteListener<CartBean[]> listener) {
+        OkHttpUtils<CartBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_CARTS)
+                .addParam(I.Cart.USER_NAME,username)
+                .targetClass(CartBean[].class)
+                .execute(listener);
+    }
+
+
 }
