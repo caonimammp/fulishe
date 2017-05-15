@@ -39,8 +39,6 @@ public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
     IGoodsModel model;
     IUserModel userModel;
-    @BindView(R.id.tvBoutiqueCate)
-    TextView tvBoutiqueCate;
     @BindView(R.id.tv_good_name_english)
     TextView tvGoodNameEnglish;
     @BindView(R.id.tv_good_name)
@@ -64,6 +62,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     ImageView ivGoodCollect;
     User user;
     boolean isCollect = false;
+    @BindView(R.id.tvBoutiqueCate)
+    TextView tvBoutiqueCate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,21 +114,23 @@ public class GoodsDetailActivity extends AppCompatActivity {
                     new OnCompleteListener<MessageBean>() {
                         @Override
                         public void onSuccess(MessageBean result) {
-                            isCollect=result != null && result.isSuccess()?true:false;
+                            isCollect = result != null && result.isSuccess() ? true : false;
                             upCollectUI();
                         }
 
                         @Override
                         public void onError(String error) {
-                            isCollect=false;
+                            isCollect = false;
                             upCollectUI();
                         }
                     });
         }
     }
-    private void upCollectUI(){
-        ivGoodCollect.setImageResource(isCollect? R.mipmap.bg_collect_out : R.mipmap.bg_collect_in);
+
+    private void upCollectUI() {
+        ivGoodCollect.setImageResource(isCollect ? R.mipmap.bg_collect_out : R.mipmap.bg_collect_in);
     }
+
     private void showData(GoodsDetailsBean bean) {
         tvGoodNameEnglish.setText(bean.getGoodsEnglishName());
         tvGoodName.setText(bean.getGoodsName());
@@ -189,32 +191,32 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 break;
             case R.id.iv_good_collect:
                 user = FuLiCenterApplication.getInstance().getCurrentUser();
-                if(user == null){
-                    startActivityForResult(new Intent(GoodsDetailActivity.this,LoginActivity.class),0);
-                }else {
-                    if(isCollect){
+                if (user == null) {
+                    startActivityForResult(new Intent(GoodsDetailActivity.this, LoginActivity.class), 0);
+                } else {
+                    if (isCollect) {
                         userModel.removeCollect(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
                                 new OnCompleteListener<MessageBean>() {
                                     @Override
                                     public void onSuccess(MessageBean result) {
-                                        if(result!=null&&result.isSuccess()){
-                                            isCollect=false;
+                                        if (result != null && result.isSuccess()) {
+                                            isCollect = false;
                                             upCollectUI();
                                         }
                                     }
 
                                     @Override
                                     public void onError(String error) {
-                                            upCollectUI();
+                                        upCollectUI();
                                     }
                                 });
-                    }else {
+                    } else {
                         userModel.addColltct(GoodsDetailActivity.this, String.valueOf(goodsId), user.getMuserName(),
                                 new OnCompleteListener<MessageBean>() {
                                     @Override
                                     public void onSuccess(MessageBean result) {
-                                        if(result!=null&&result.isSuccess()){
-                                            isCollect=true;
+                                        if (result != null && result.isSuccess()) {
+                                            isCollect = true;
                                             upCollectUI();
                                         }
                                     }
@@ -233,7 +235,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&requestCode==0){
+        if (resultCode == RESULT_OK && requestCode == 0) {
             upCollectUI();
         }
     }

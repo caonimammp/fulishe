@@ -18,12 +18,13 @@ import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.data.bean.MessageBean;
+import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModel;
 import cn.ucai.fulishe.data.utils.ImageLoader;
-import cn.ucai.fulishe.data.utils.L;
+import cn.ucai.fulishe.ui.activity.MyCollectActivitty;
 import cn.ucai.fulishe.ui.activity.SettingActivity;
 
 
@@ -37,7 +38,8 @@ public class PersonalFragment extends Fragment {
     IUserModel model;
     @BindView(R.id.collectCount)
     TextView tvcollectCount;
-    int collectCount=0;
+    int collectCount = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class PersonalFragment extends Fragment {
             public void onSuccess(MessageBean result) {
                 if (result != null && result.isSuccess()) {
                     collectCount = Integer.parseInt(result.getMsg());
-                }else {
+                } else {
                     collectCount = 0;
                 }
                 tvcollectCount.setText(String.valueOf(collectCount));
@@ -94,5 +96,12 @@ public class PersonalFragment extends Fragment {
     @OnClick(R.id.Setting)
     public void onViewClicked() {
         startActivity(new Intent(getContext(), SettingActivity.class));
+    }
+
+    @OnClick({R.id.collectCount, R.id.btn_MyCollect})
+    public void onViewClicked(View view) {
+        if(user!=null){
+            startActivity(new Intent(getContext(),MyCollectActivitty.class));
+        }
     }
 }

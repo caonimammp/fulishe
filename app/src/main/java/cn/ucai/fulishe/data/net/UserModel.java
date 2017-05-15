@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.File;
 
 import cn.ucai.fulishe.application.I;
+import cn.ucai.fulishe.data.bean.CollectBean;
 import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.bean.User;
@@ -85,13 +86,13 @@ public class UserModel implements IUserModel {
     }
 
     @Override
-    public void upDataCollectGoods(Context context, String username, int pageId, int pageSize, OnCompleteListener<NewGoodsBean[]> listener) {
-        OkHttpUtils<NewGoodsBean[]> utils = new OkHttpUtils<>(context);
+    public void upDataCollectGoods(Context context, String username, int pageId, int pageSize, OnCompleteListener<CollectBean[]> listener) {
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
-                .addParam(I.User.USER_NAME,username)
+                .addParam(I.Collect.USER_NAME,username)
                 .addParam(I.PAGE_ID,pageId+"")
                 .addParam(I.PAGE_SIZE,pageSize+"")
-                .targetClass(NewGoodsBean[].class)
+                .targetClass(CollectBean[].class)
                 .execute(listener);
     }
 

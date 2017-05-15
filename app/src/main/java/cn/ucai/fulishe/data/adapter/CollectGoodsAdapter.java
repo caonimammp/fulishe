@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.CollectBean;
@@ -30,10 +28,11 @@ import cn.ucai.fulishe.ui.activity.GoodsDetailActivity;
  * Created by Administrator on 2017/5/4.
  */
 
-public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<NewGoodsBean> list;
+public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    List<CollectBean> list1;
     Context context;
     boolean isMore = true;
+    int ListType;
 
     public boolean isMore() {
         return isMore;
@@ -44,18 +43,21 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public GoodsAdapter(List<NewGoodsBean> list, Context context) {
-        this.list = list;
+    public CollectGoodsAdapter(ArrayList<CollectBean> list, Context context) {
+        this.list1 = list;
         this.context = context;
+        L.e("main","11111111111111111111....");
+
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        L.e("main","11111111111111111111");
         if(viewType== I.TYPE_FOOTER){
             return new FooterViewHolder(View.inflate(context, R.layout.item_footer, null));
         }else {
-            return new GoodsViewHolder(View.inflate(context, R.layout.item_goods, null));
+            return new CollectGoodsViewHolder(View.inflate(context, R.layout.item_collectgoods, null));
         }
     }
 
@@ -73,10 +75,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if(getItemViewType(position)==I.TYPE_FOOTER){
             ((FooterViewHolder)holder).tvFooter.setText(getFooter());
         }else{
-                final NewGoodsBean bean = list.get(position);
-                ((GoodsViewHolder)holder).tvGoodsName.setText(bean.getGoodsName());
-                ((GoodsViewHolder)holder).tvGoodsPrice.setText(bean.getCurrencyPrice());
-                ImageLoader.downloadImg(context, ((GoodsViewHolder)holder).ivNewGoods, bean.getGoodsThumb());
+                L.e("main","GoodsAdapter.list"+list1);
+                final CollectBean bean = list1.get(position);
+                ((CollectGoodsViewHolder)holder).tvGoodsName.setText(bean.getGoodsName());
+                ImageLoader.downloadImg(context, ((CollectGoodsViewHolder)holder).ivNewGoods, bean.getGoodsThumb());
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -85,45 +87,40 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
                 });
             }
-
-
         }
-
-
     @Override
     public int getItemCount() {
-            return list != null ? list.size()+1 : 1;
+            return list1 != null ? list1.size() + 1 : 1;
     }
 
     public String getFooter() {
         return isMore ? "加载更多数据" : "没有更多数据";
     }
 
-    public void addData(ArrayList<NewGoodsBean> list) {
-        this.list.addAll(list);
+
+    public void addData1(ArrayList<CollectBean> list) {
+        this.list1.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void initData(ArrayList<NewGoodsBean> list) {
-        if(this.list!=null){
-            this.list.clear();
+    public void initData1(ArrayList<CollectBean> list) {
+        if(this.list1!=null){
+            this.list1.clear();
         }
-          this.list.addAll(list);
+          this.list1.addAll(list);
     }
 
 
 
-    class GoodsViewHolder extends RecyclerView.ViewHolder {
+    class CollectGoodsViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.ivNewGoods)
         ImageView ivNewGoods;
         @BindView(R.id.tvGoodsName)
         TextView tvGoodsName;
-        @BindView(R.id.tvGoodsPrice)
-        TextView tvGoodsPrice;
         @BindView(R.id.layout_goods)
         LinearLayout layoutGoods;
 
-        GoodsViewHolder(View view) {
+        CollectGoodsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
@@ -138,33 +135,5 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ButterKnife.bind(this, view);
         }
     }
-    public void sortGoods(final int sortBy){
-        Collections.sort(list, new Comparator<NewGoodsBean>() {
-            int result = 0;
-            @Override
-            public int compare(NewGoodsBean left, NewGoodsBean right) {
-                switch (sortBy){
-                    case I.SORT_BY_PRICE_ASC:
-                        result = getPrice(left.getCurrencyPrice())-getPrice(right.getCurrencyPrice());
-                        break;
-                    case I.SORT_BY_PRICE_DESC:
-                        result = getPrice(right.getCurrencyPrice())-getPrice(left.getCurrencyPrice());
-                        break;
-                    case I.SORT_BY_ADDTIME_ASC:
-                        result = (int) (left.getAddTime()-right.getAddTime());
-                        break;
-                    case I.SORT_BY_ADDTIME_DESC:
-                        result = (int) (right.getAddTime()-left.getAddTime());
-                        break;
-                }
-                return result;
-            }
-        });
-        notifyDataSetChanged();
-    }
 
-    private int getPrice(String currencyPrice) {
-        String price = currencyPrice.substring(currencyPrice.indexOf("￥")+1);
-        return Integer.parseInt(price);
-    }
 }

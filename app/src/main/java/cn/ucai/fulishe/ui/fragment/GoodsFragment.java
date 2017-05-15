@@ -55,8 +55,6 @@ public class GoodsFragment extends Fragment {
         L.e("main",catId+"");
         this.catId = catId;
     }
-
-
     GridLayoutManager layoutManager;
 
     @Override
@@ -174,7 +172,6 @@ public class GoodsFragment extends Fragment {
             public void onError(String error) {
                 pd.dismiss();
                 setListVisibility(false);
-                L.e("mian","error"+error);
             }
         });
     }
