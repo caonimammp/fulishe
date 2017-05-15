@@ -183,11 +183,19 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,goodsId)
+                .putExtra(I.Goods.KEY_ISCOLLECT,isCollect));
+    }
 
     @OnClick({R.id.ivBack, R.id.iv_good_collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
+                setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,goodsId)
+                        .putExtra(I.Goods.KEY_ISCOLLECT,isCollect));
                 finish();
                 break;
             case R.id.iv_good_collect:
