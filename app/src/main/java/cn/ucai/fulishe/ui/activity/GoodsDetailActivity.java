@@ -27,6 +27,7 @@ import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModel;
+import cn.ucai.fulishe.data.utils.CommonUtils;
 import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.ui.view.FlowIndicator;
 import cn.ucai.fulishe.ui.view.SlideAutoLoopView;
@@ -200,6 +201,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(MessageBean result) {
                                         if (result != null && result.isSuccess()) {
+                                            CommonUtils.showLongToast(result.getMsg());
                                             isCollect = false;
                                             upCollectUI();
                                         }
@@ -217,12 +219,14 @@ public class GoodsDetailActivity extends AppCompatActivity {
                                     public void onSuccess(MessageBean result) {
                                         if (result != null && result.isSuccess()) {
                                             isCollect = true;
+                                            CommonUtils.showLongToast(result.getMsg());
                                             upCollectUI();
                                         }
                                     }
 
                                     @Override
                                     public void onError(String error) {
+                                        CommonUtils.showLongToast(error);
                                         upCollectUI();
                                     }
                                 });
