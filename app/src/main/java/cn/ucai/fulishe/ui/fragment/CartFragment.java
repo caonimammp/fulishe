@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,6 @@ public class CartFragment extends Fragment {
     private void setListVisibility(boolean visibility) {
         srf.setVisibility(visibility ? View.VISIBLE : View.GONE);
         tvNomore.setVisibility(visibility ? View.GONE : View.VISIBLE);
-        layoutCartjiesuan.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     private void loadData() {
@@ -106,7 +106,7 @@ public class CartFragment extends Fragment {
                 setLayoutVisibility(false);
                 setListVisibility(true);
                 list.clear();
-                if (result != null) {
+                if (result!=null&&result.length>0) {
                     list.addAll(ResultUtils.array2List(result));
                     upDataUI();
                 } else {
