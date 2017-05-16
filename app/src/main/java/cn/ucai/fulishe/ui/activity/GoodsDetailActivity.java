@@ -251,4 +251,29 @@ public class GoodsDetailActivity extends AppCompatActivity {
             upCollectUI();
         }
     }
+    @OnClick({R.id.iv_good_cart})
+    public void onCartClick(View view){
+        if(user!=null){
+            addCart();
+        }else {
+            startActivityForResult(new Intent(GoodsDetailActivity.this, LoginActivity.class), 0);
+        }
+    }
+
+    private void addCart() {
+        userModel.addCart(GoodsDetailActivity.this, goodsId, user.getMuserName(), I.ACTION_CART_ADD, true, new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if(result!=null&&result.isSuccess()){
+                    CommonUtils.showLongToast(result.getMsg());
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
 }
+
