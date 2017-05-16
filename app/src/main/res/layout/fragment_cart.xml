@@ -48,6 +48,7 @@
                     android:text="全选" />
 
                 <TextView
+                    android:id="@+id/tvAll_Price"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -55,6 +56,16 @@
                     android:paddingRight="10dp"
                     android:text="合计:￥88"
                     android:textColor="#F63A19" />
+                <TextView
+                    android:id="@+id/tvSave_Price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="节省:￥88"
+                    android:textColor="#dc5740" />
+
 
                 <TextView
                     android:id="@+id/jiesuan_button"

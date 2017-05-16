@@ -8,10 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,10 +19,13 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.data.bean.CartBean;
+import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
+import cn.ucai.fulishe.data.bean.MessageBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
@@ -51,6 +54,10 @@ public class CartFragment extends Fragment {
     CartAdapter adapter;
     @BindView(R.id.layoutCartjiesuan)
     LinearLayout layoutCartjiesuan;
+    @BindView(R.id.tvAll_Price)
+    TextView tvAllPrice;
+    @BindView(R.id.tvSave_Price)
+    TextView tvSavePrice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +68,15 @@ public class CartFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        loadData();
         initDialog();
         setDownLoadListener();
     }
@@ -106,7 +118,7 @@ public class CartFragment extends Fragment {
                 setLayoutVisibility(false);
                 setListVisibility(true);
                 list.clear();
-                if (result!=null&&result.length>0) {
+                if (result != null && result.length > 0) {
                     list.addAll(ResultUtils.array2List(result));
                     upDataUI();
                 } else {
@@ -119,6 +131,7 @@ public class CartFragment extends Fragment {
                 pd.dismiss();
                 setListVisibility(false);
                 setLayoutVisibility(false);
+                tvNomore.setText(error);
             }
         });
     }
@@ -126,11 +139,45 @@ public class CartFragment extends Fragment {
     private void upDataUI() {
         if (adapter == null) {
             adapter = new CartAdapter(getContext(), list);
+            adapter.setCbkListener(cbkListener);
             rvGoods.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
         }
+        sumPrice();
     }
+
+    private void sumPrice() {
+        int sumPrice = 0;
+        int savePrice = 0;
+        if(list.size()>0){
+            for (CartBean bean : list) {
+                if(bean.isChecked()){
+                    GoodsDetailsBean goods = bean.getGoods();
+                    if(goods!=null){
+                        sumPrice+=getPrice(goods.getCurrencyPrice())*bean.getCount();
+                        savePrice+=(getPrice(goods.getCurrencyPrice())-getPrice(goods.getRankPrice()))*bean.getCount();
+                    }
+                }
+            }
+        }
+        tvAllPrice.setText("合计：￥"+sumPrice);
+        tvSavePrice.setText("节省：￥"+savePrice);
+    }
+
+    private int getPrice(String currencyPrice) {
+        String price = currencyPrice.substring(currencyPrice.indexOf("￥")+1);
+        return Integer.parseInt(price);
+    }
+    CompoundButton.OnCheckedChangeListener cbkListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            int position = (int) buttonView.getTag();
+            list.get(position).setChecked(isChecked);
+            sumPrice();
+        }
+
+    };
 
     private void initView() {
         model = new UserModel();
@@ -143,5 +190,29 @@ public class CartFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.tv_nomore)
+    public void onViewClicked() {
+        pd.show();
+        loadData();
+    }
+    private void updateCart(final int position,final int count){
+        final CartBean bean = list.get(position);
+        model.updateCart(getContext(), bean.getId(), bean.getCount() + count, false, new OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if(result!=null&&result.isSuccess()){
+                    adapter.notifyDataSetChanged();
+                    list.get(position).setCount(bean.getCount()+count);
+                    sumPrice();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 }
