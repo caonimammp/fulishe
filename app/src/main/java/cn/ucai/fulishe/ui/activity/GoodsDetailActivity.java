@@ -65,6 +65,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
     boolean isCollect = false;
     @BindView(R.id.tvBoutiqueCate)
     TextView tvBoutiqueCate;
+    @BindView(R.id.iv_good_cart)
+    ImageView ivGoodCart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -186,16 +188,16 @@ public class GoodsDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,goodsId)
-                .putExtra(I.Goods.KEY_ISCOLLECT,isCollect));
+        setResult(RESULT_OK, new Intent().putExtra(I.Goods.KEY_GOODS_ID, goodsId)
+                .putExtra(I.Goods.KEY_ISCOLLECT, isCollect));
     }
 
     @OnClick({R.id.ivBack, R.id.iv_good_collect})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
-                setResult(RESULT_OK,new Intent().putExtra(I.Goods.KEY_GOODS_ID,goodsId)
-                        .putExtra(I.Goods.KEY_ISCOLLECT,isCollect));
+                setResult(RESULT_OK, new Intent().putExtra(I.Goods.KEY_GOODS_ID, goodsId)
+                        .putExtra(I.Goods.KEY_ISCOLLECT, isCollect));
                 finish();
                 break;
             case R.id.iv_good_collect:
@@ -251,11 +253,12 @@ public class GoodsDetailActivity extends AppCompatActivity {
             upCollectUI();
         }
     }
+
     @OnClick({R.id.iv_good_cart})
-    public void onCartClick(View view){
-        if(user!=null){
+    public void onCartClick(View view) {
+        if (user != null) {
             addCart();
-        }else {
+        } else {
             startActivityForResult(new Intent(GoodsDetailActivity.this, LoginActivity.class), 0);
         }
     }
@@ -264,14 +267,14 @@ public class GoodsDetailActivity extends AppCompatActivity {
         userModel.addCart(GoodsDetailActivity.this, goodsId, user.getMuserName(), I.ACTION_CART_ADD, true, new OnCompleteListener<MessageBean>() {
             @Override
             public void onSuccess(MessageBean result) {
-                if(result!=null&&result.isSuccess()){
-                    CommonUtils.showLongToast(result.getMsg());
+                if (result != null && result.isSuccess()) {
+                    CommonUtils.showLongToast(R.string.add_goods_success);
                 }
             }
 
             @Override
             public void onError(String error) {
-
+                CommonUtils.showLongToast(R.string.add_goods_fail);
             }
         });
     }

@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cn.ucai.fulishe.R;
-import cn.ucai.fulishe.data.adapter.CatFiterAdapter;
+import cn.ucai.fulishe.ui.adapter.CatFiterAdapter;
 import cn.ucai.fulishe.data.bean.CategoryChildBean;
 import cn.ucai.fulishe.data.utils.CommonUtils;
 

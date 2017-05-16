@@ -1,4 +1,4 @@
-package cn.ucai.fulishe.data.adapter;
+package cn.ucai.fulishe.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.BoutiqueBean;
 import cn.ucai.fulishe.data.utils.ImageLoader;
 import cn.ucai.fulishe.ui.activity.Boutique_ChildActivity;
-import cn.ucai.fulishe.ui.activity.MainActivity;
 
 /**
  * Created by Administrator on 2017/5/5.

@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
-import cn.ucai.fulishe.data.adapter.GoodsAdapter;
+import cn.ucai.fulishe.ui.adapter.GoodsAdapter;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;

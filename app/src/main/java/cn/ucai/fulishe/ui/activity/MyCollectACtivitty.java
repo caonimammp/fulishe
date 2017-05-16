@@ -20,7 +20,7 @@ import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
-import cn.ucai.fulishe.data.adapter.CollectGoodsAdapter;
+import cn.ucai.fulishe.ui.adapter.CollectGoodsAdapter;
 import cn.ucai.fulishe.data.bean.CollectBean;
 import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.IUserModel;

@@ -5,14 +5,12 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +18,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
-import cn.ucai.fulishe.data.adapter.CategoryAdapter;
+import cn.ucai.fulishe.ui.adapter.CategoryAdapter;
 import cn.ucai.fulishe.data.bean.CategoryChildBean;
 import cn.ucai.fulishe.data.bean.CategoryGroupBean;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
-import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
 
 

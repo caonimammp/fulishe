@@ -1,4 +1,4 @@
-package cn.ucai.fulishe.data.adapter;
+package cn.ucai.fulishe.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,13 +16,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
-import cn.ucai.fulishe.data.bean.CollectBean;
 import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.utils.ImageLoader;
-import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.ui.activity.GoodsDetailActivity;
 
 /**

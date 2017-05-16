@@ -1,4 +1,4 @@
-package cn.ucai.fulishe.data.adapter;
+package cn.ucai.fulishe.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;

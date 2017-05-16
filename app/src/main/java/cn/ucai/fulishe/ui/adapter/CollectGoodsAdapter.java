@@ -1,4 +1,4 @@
-package cn.ucai.fulishe.data.adapter;
+package cn.ucai.fulishe.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;

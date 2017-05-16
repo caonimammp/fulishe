@@ -20,15 +20,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
-import cn.ucai.fulishe.data.adapter.BoutiqueAdapter;
-import cn.ucai.fulishe.data.adapter.GoodsAdapter;
+import cn.ucai.fulishe.ui.adapter.BoutiqueAdapter;
 import cn.ucai.fulishe.data.bean.BoutiqueBean;
-import cn.ucai.fulishe.data.bean.NewGoodsBean;
 import cn.ucai.fulishe.data.net.GoodsModel;
 import cn.ucai.fulishe.data.net.IGoodsModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.utils.L;
-import cn.ucai.fulishe.data.utils.OkHttpUtils;
 import cn.ucai.fulishe.data.utils.ResultUtils;
 
 
