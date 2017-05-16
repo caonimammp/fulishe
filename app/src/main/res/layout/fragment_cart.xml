@@ -1,75 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <LinearLayout
+    android:orientation="vertical">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srf"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#438FCB"
-        android:orientation="horizontal">
-        <ImageView
-            android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:src="@drawable/back" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="5.49"
-            android:gravity="center"
-            android:text="购物车"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3.18"
-            android:gravity="center"
-            android:text="编辑"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginTop="0dp">
-        <ListView
-            android:id="@+id/cart_shopping_listview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:divider="#808080"
-            android:dividerHeight="0.5dp">
-        </ListView>
-    </LinearLayout>
-    <LinearLayout
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/layout_refresh_title"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/orange"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5.49"
+                    android:gravity="center"
+                    android:text="购物车"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#808080"
+                    android:dividerHeight="0.5dp"></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCartjiesuan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="全选" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="合计:￥88"
+                    android:textColor="#F63A19" />
+
+                <TextView
+                    android:id="@+id/jiesuan_button"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="结算" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/tv_nomore"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="全选"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:paddingRight="10dp"
-            android:textColor="#F63A19"
-            android:text="合计:￥88"/>
-        <TextView
-            android:id="@+id/jiesuan_button"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="结算"/>
-    </LinearLayout>
-</LinearLayout >
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/nothing"
+        />
+</RelativeLayout>

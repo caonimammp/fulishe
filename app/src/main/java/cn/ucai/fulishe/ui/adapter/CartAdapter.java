@@ -46,7 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
 
     @Override
     public int getItemCount() {
-        return list!=null?list.size()+1:1;
+        return list!=null?list.size():0;
     }
 
     class CartGoodViewHolder extends RecyclerView.ViewHolder {
@@ -81,7 +81,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
                     tvName.setText(goods.getGoodsName());
                     tvCurrentPrice.setText(goods.getCurrencyPrice());
                     cbCheckbox.setChecked(bean.isChecked());
-                    tvCount.setText(bean.getCount());
+                    tvCount.setText("("+bean.getCount()+")");
                     ivImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

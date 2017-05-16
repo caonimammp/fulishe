@@ -70,7 +70,6 @@ public class MyCollectActivitty extends AppCompatActivity {
         if(requestCode==I.REQUEST_CODE_GO_DETAILS&&resultCode==RESULT_OK){
             int goodsId = data.getIntExtra(I.Goods.KEY_GOODS_ID,0);
             boolean isCollect = data.getBooleanExtra(I.Goods.KEY_ISCOLLECT,true);
-            L.e("main","1111+++"+goodsId+isCollect);
             if(!isCollect){
                 collectList.remove(new CollectBean(goodsId));
                 adapter.notifyDataSetChanged();
@@ -181,7 +180,6 @@ public class MyCollectActivitty extends AppCompatActivity {
                 adapter.initData1(list);
             }else {
                 collectList.addAll(list);
-                L.e("main","MyCollecActivity.collectList.size:"+collectList.size());
                 adapter.notifyDataSetChanged();
             }
 

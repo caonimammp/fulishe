@@ -50,8 +50,6 @@ public class CollectGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public CollectGoodsAdapter(ArrayList<CollectBean> list, Context context) {
         this.list1 = list;
         this.context = context;
-        L.e("main","list"+list);
-        L.e("main",list.size()+"");
     }
 
 

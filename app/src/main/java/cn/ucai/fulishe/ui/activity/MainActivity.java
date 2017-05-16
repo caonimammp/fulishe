@@ -14,6 +14,7 @@ import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
 import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.ui.fragment.BoutiqueFragment;
+import cn.ucai.fulishe.ui.fragment.CartFragment;
 import cn.ucai.fulishe.ui.fragment.CategoryFragment;
 import cn.ucai.fulishe.ui.fragment.GoodsFragment;
 import cn.ucai.fulishe.ui.fragment.PersonalFragment;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     BoutiqueFragment bf;
     CategoryFragment cf;
     PersonalFragment pf;
+    CartFragment cartf;
     Fragment[] mFragments;
     int index, currentIndex;
     RadioButton[] mRadioButtons;
@@ -51,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
         bf = new BoutiqueFragment();
         cf = new CategoryFragment();
         pf = new PersonalFragment();
+        cartf =new CartFragment();
         mFragments = new Fragment[5];
         mFragments[0] = gf;
         mFragments[1] = bf;
         mFragments[2] = cf;
+        mFragments[3] = cartf;
         mFragments[4] = pf;
+
         mRadioButtons = new RadioButton[5];
         mRadioButtons[0] = rbNewGoods;
         mRadioButtons[1] = rbBoutique;
@@ -86,6 +91,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.rbCategory:
                 index = 2;
+                break;
+            case R.id.rbCart:
+                if (FuLiCenterApplication.getInstance().getCurrentUser() == null) {
+                    startActivityForResult(new Intent(MainActivity.this, LoginActivity.class),I.REQUEST_CODE_LOGIN_FROM_CART);
+                } else {
+                    index = 3;
+                }
                 break;
             case R.id.rbContact:
                 if (FuLiCenterApplication.getInstance().getCurrentUser() == null) {
@@ -120,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&requestCode== I.REQUEST_CODE_LOGIN){
-            index=4;
-            setFragment();
-        }
+        if(resultCode==RESULT_OK){
+                index=requestCode== I.REQUEST_CODE_LOGIN?4:3;
+                setFragment();
+            }
     }
 
     @Override
