@@ -109,11 +109,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
                     });
                     cbCheckbox.setOnCheckedChangeListener(cbkListener);
                     cbCheckbox.setTag(position);
-                    cbCheckbox.setTag(bean.isChecked());
-                    ivAdd.setTag(position);
-                    ivAdd.setOnClickListener(clickListener);
-                    ivReduce.setTag(position);
-                    ivReduce.setOnClickListener(clickListener1);
+                        ivAdd.setTag(position);
+                        ivAdd.setOnClickListener(clickListener);
+                        ivReduce.setTag(position);
+                        ivReduce.setOnClickListener(clickListener1);
+
                 }
             }
         }
