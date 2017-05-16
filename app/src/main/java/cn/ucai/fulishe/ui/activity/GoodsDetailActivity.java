@@ -264,7 +264,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     }
 
     private void addCart() {
-        userModel.addCart(GoodsDetailActivity.this, goodsId, user.getMuserName(), I.ACTION_CART_ADD, true, new OnCompleteListener<MessageBean>() {
+        userModel.addCart(GoodsDetailActivity.this, goodsId, user.getMuserName(), I.ACTION_CART_ADD, false, new OnCompleteListener<MessageBean>() {
             @Override
             public void onSuccess(MessageBean result) {
                 if (result != null && result.isSuccess()) {

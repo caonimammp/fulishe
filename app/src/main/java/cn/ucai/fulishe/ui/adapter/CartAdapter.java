@@ -3,6 +3,7 @@ package cn.ucai.fulishe.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -30,9 +31,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
     private Context context;
     private List<CartBean> list;
     CompoundButton.OnCheckedChangeListener cbkListener;
+    View.OnClickListener clickListener;
+    View.OnClickListener clickListener1;
+
+    public void setClickListener1(View.OnClickListener clickListener1) {
+        this.clickListener1 = clickListener1;
+    }
+
     public CartAdapter(Context context, List<CartBean> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public void setClickListener(View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     public void setCbkListener(CompoundButton.OnCheckedChangeListener cbkListener) {
@@ -86,6 +98,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
                     tvName.setText(goods.getGoodsName());
                     tvCurrentPrice.setText(goods.getCurrencyPrice());
                     cbCheckbox.setChecked(bean.isChecked());
+                    Log.i("main","setChecked.bean.isChecked="+bean.isChecked());
                     tvCount.setText("("+bean.getCount()+")");
                     ivImage.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -96,6 +109,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
                     });
                     cbCheckbox.setOnCheckedChangeListener(cbkListener);
                     cbCheckbox.setTag(position);
+                    cbCheckbox.setTag(bean.isChecked());
+                    ivAdd.setTag(position);
+                    ivAdd.setOnClickListener(clickListener);
+                    ivReduce.setTag(position);
+                    ivReduce.setOnClickListener(clickListener1);
                 }
             }
         }

@@ -140,6 +140,8 @@ public class CartFragment extends Fragment {
         if (adapter == null) {
             adapter = new CartAdapter(getContext(), list);
             adapter.setCbkListener(cbkListener);
+            adapter.setClickListener(clickListener);
+            adapter.setClickListener1(clickListener1);
             rvGoods.setAdapter(adapter);
         } else {
             adapter.notifyDataSetChanged();
@@ -176,9 +178,21 @@ public class CartFragment extends Fragment {
             list.get(position).setChecked(isChecked);
             sumPrice();
         }
-
     };
-
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            updateCart(position,1);
+        }
+    };
+    View.OnClickListener clickListener1 = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag();
+            updateCart(position,-1);
+        }
+    };
     private void initView() {
         model = new UserModel();
         llm = new LinearLayoutManager(getContext());
@@ -199,20 +213,40 @@ public class CartFragment extends Fragment {
     }
     private void updateCart(final int position,final int count){
         final CartBean bean = list.get(position);
-        model.updateCart(getContext(), bean.getId(), bean.getCount() + count, false, new OnCompleteListener<MessageBean>() {
-            @Override
-            public void onSuccess(MessageBean result) {
-                if(result!=null&&result.isSuccess()){
-                    adapter.notifyDataSetChanged();
-                    list.get(position).setCount(bean.getCount()+count);
-                    sumPrice();
+        if(bean.getCount()>1){
+            model.updateCart(getContext(), bean.getId(), bean.getCount() + count, false, new OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null&&result.isSuccess()){
+                        adapter.notifyDataSetChanged();
+                        list.get(position).setCount(bean.getCount()+count);
+                        sumPrice();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(String error) {
+                @Override
+                public void onError(String error) {
 
-            }
-        });
+                }
+            });
+        }else {
+            model.removeCart(getContext(), bean.getId(), new OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if(result!=null&&result.isSuccess()){
+                        list.get(position).setCount(bean.getCount()+count);
+                        list.remove(position);
+                        adapter.notifyDataSetChanged();
+                        sumPrice();
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+
+                }
+            });
+        }
+
     }
 }
