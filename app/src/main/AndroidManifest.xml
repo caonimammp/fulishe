@@ -31,7 +31,8 @@
         <activity android:name=".ui.activity.UpDataNickActivity" />
         <activity android:name=".ui.activity.UpdataAvatorActivity" />
         <activity android:name=".ui.activity.ClipImageActivity" />
-        <activity android:name=".ui.activity.MyCollectActivitty"></activity>
+        <activity android:name=".ui.activity.MyCollectActivitty" />
+        <activity android:name=".ui.activity.OrderActivity"></activity>
     </application>
 
 </manifest>
