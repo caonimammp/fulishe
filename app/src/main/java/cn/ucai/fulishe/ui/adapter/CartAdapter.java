@@ -91,6 +91,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartGoodViewHo
 
         public void bind(final int position) {
             final CartBean bean = list.get(position);
+            cbCheckbox.setOnCheckedChangeListener(null);
             if(bean!=null){
                 GoodsDetailsBean goods = bean.getGoods();
                 if(goods!=null){
