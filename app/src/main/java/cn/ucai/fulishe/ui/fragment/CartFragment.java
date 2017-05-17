@@ -2,6 +2,10 @@ package cn.ucai.fulishe.ui.fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +27,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.FuLiCenterApplication;
+import cn.ucai.fulishe.application.I;
 import cn.ucai.fulishe.data.bean.CartBean;
 import cn.ucai.fulishe.data.bean.GoodsDetailsBean;
 import cn.ucai.fulishe.data.bean.MessageBean;
@@ -30,7 +35,10 @@ import cn.ucai.fulishe.data.bean.User;
 import cn.ucai.fulishe.data.net.IUserModel;
 import cn.ucai.fulishe.data.net.OnCompleteListener;
 import cn.ucai.fulishe.data.net.UserModel;
+import cn.ucai.fulishe.data.utils.CommonUtils;
+import cn.ucai.fulishe.data.utils.L;
 import cn.ucai.fulishe.data.utils.ResultUtils;
+import cn.ucai.fulishe.ui.activity.OrderActivity;
 import cn.ucai.fulishe.ui.adapter.CartAdapter;
 
 
@@ -58,6 +66,8 @@ public class CartFragment extends Fragment {
     TextView tvAllPrice;
     @BindView(R.id.tvSave_Price)
     TextView tvSavePrice;
+    int sumPrice=0;
+    int savePrice=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +80,6 @@ public class CartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
     }
 
     @Override
@@ -78,6 +87,7 @@ public class CartFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
         initDialog();
+        loadData();
         setDownLoadListener();
     }
 
@@ -93,9 +103,14 @@ public class CartFragment extends Fragment {
             public void onRefresh() {
                 srf.setRefreshing(true);
                 srf.setVisibility(View.VISIBLE);
+                if(list!=null){
+                    list.clear();
+                }
                 loadData();
             }
         });
+        IntentFilter filter = new IntentFilter(I.BROADCAST_UPDATA_CART);
+        getContext().registerReceiver(mReceiver, filter);
     }
 
     private void setLayoutVisibility(boolean visibility) {
@@ -150,8 +165,8 @@ public class CartFragment extends Fragment {
     }
 
     private void sumPrice() {
-        int sumPrice = 0;
-        int savePrice = 0;
+        sumPrice = 0;
+        savePrice = 0;
         if (list.size() > 0) {
             for (CartBean bean : list) {
                 if (bean.isChecked()) {
@@ -254,7 +269,59 @@ public class CartFragment extends Fragment {
 
             }
         });
+    }
 
+    UpdateCartBroadcastReceiver mReceiver = new UpdateCartBroadcastReceiver();
+
+    @OnClick(R.id.jiesuan_button)
+    public void onBuy() {
+        if(sumPrice>0){
+            startActivity(new Intent(getContext(),OrderActivity.class).putExtra(I.Cart.PAY_PRICE,sumPrice-savePrice));
+        }else {
+            CommonUtils.showLongToast("nothing");
+        }
+    }
+
+    class UpdateCartBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            GoodsDetailsBean bean = (GoodsDetailsBean) intent.getSerializableExtra(I.Cart.class.toString());
+
+            updateCart1(bean);
+        }
+
+
+    }
+
+    private void updateCart1(GoodsDetailsBean bean) {
+        boolean isHas = false;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getGoodsId() == bean.getGoodsId()) {
+                list.get(i).setCount(list.get(i).getCount() + 1);
+                isHas = true;
+            }
+
+        }
+        if (!isHas) {
+            CartBean cart = new CartBean();
+            cart.setCount(1);
+            cart.setGoodsId(bean.getGoodsId());
+            cart.setChecked(true);
+            cart.setUserName(FuLiCenterApplication.getInstance().getCurrentUser().getMuserName());
+            cart.setGoods(bean);
+            list.add(cart);
+        }
+        adapter.notifyDataSetChanged();
+        sumPrice();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            getContext().unregisterReceiver(mReceiver);
+        }
     }
 }
 
