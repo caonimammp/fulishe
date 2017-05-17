@@ -67,6 +67,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
     TextView tvBoutiqueCate;
     @BindView(R.id.iv_good_cart)
     ImageView ivGoodCart;
+    GoodsDetailsBean mGoodsDrtailsBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         model.loadGoodsDetail(GoodsDetailActivity.this, goodsId, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
+                mGoodsDrtailsBean=result;
                 L.e("mian", "result=" + result);
                 if (result != null) {
                     showData(result);
@@ -269,6 +271,10 @@ public class GoodsDetailActivity extends AppCompatActivity {
             public void onSuccess(MessageBean result) {
                 if (result != null && result.isSuccess()) {
                     CommonUtils.showLongToast(R.string.add_goods_success);
+                    sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART)
+                            .putExtra(I.Cart.class.toString(),mGoodsDrtailsBean));
+                }else {
+                    CommonUtils.showLongToast("add goods fail");
                 }
             }
 
