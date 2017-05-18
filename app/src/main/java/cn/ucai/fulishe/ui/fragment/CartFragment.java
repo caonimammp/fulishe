@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,6 +127,11 @@ public class CartFragment extends Fragment {
 
     private void loadData() {
         user = FuLiCenterApplication.getInstance().getCurrentUser();
+        Log.i("main","Fulicenter.CartFragment.user:"+user);
+        if (user==null){
+            Log.i("main","Fulicenter.CartFragment.isNull");
+            return;
+        }
         model.loadCart(getContext(), user.getMuserName(), new OnCompleteListener<CartBean[]>() {
             @Override
             public void onSuccess(CartBean[] result) {

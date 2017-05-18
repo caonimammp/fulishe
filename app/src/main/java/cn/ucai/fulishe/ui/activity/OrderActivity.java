@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -168,13 +169,9 @@ public class OrderActivity extends AppCompatActivity {
         PingppOne.showPaymentChannels(this, bill.toString(), URL, new PaymentHandler() {
             @Override public void handlePaymentResult(Intent data) {
                 if (data != null) {
-                    /**
-                     * code：支付结果码  -2:服务端错误、 -1：失败、 0：取消、1：成功
-                     * error_msg：支付结果信息
-                     */
                     int code = data.getExtras().getInt("code");
                     String result = data.getExtras().getString("result");
-                    L.e("pay","code="+code+",result="+result);
+                    Log.i("main","OrderActivity.code="+code+",result="+result);
                 }
             }
         });

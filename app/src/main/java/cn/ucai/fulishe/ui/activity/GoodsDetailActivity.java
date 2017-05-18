@@ -94,7 +94,7 @@ public class GoodsDetailActivity extends AppCompatActivity {
         model.loadGoodsDetail(GoodsDetailActivity.this, goodsId, new OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
-                mGoodsDrtailsBean=result;
+                mGoodsDrtailsBean = result;
                 L.e("mian", "result=" + result);
                 if (result != null) {
                     showData(result);
@@ -272,8 +272,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 if (result != null && result.isSuccess()) {
                     CommonUtils.showLongToast(R.string.add_goods_success);
                     sendBroadcast(new Intent(I.BROADCAST_UPDATA_CART)
-                            .putExtra(I.Cart.class.toString(),mGoodsDrtailsBean));
-                }else {
+                            .putExtra(I.Cart.class.toString(), mGoodsDrtailsBean));
+                } else {
                     CommonUtils.showLongToast("add goods fail");
                 }
             }
@@ -283,6 +283,11 @@ public class GoodsDetailActivity extends AppCompatActivity {
                 CommonUtils.showLongToast(R.string.add_goods_fail);
             }
         });
+    }
+
+    @OnClick(R.id.iv_good_share)
+    public void onViewClicked() {
+
     }
 }
 
