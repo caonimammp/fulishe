@@ -1,10 +1,16 @@
 package cn.ucai.fulishe.ui.activity;
 
+<<<<<<< HEAD
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+=======
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+>>>>>>> origin/master
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.pingplusplus.android.PingppLog;
 import com.pingplusplus.libone.PaymentHandler;
 import com.pingplusplus.libone.PingppOne;
@@ -22,12 +29,17 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+=======
+>>>>>>> origin/master
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulishe.R;
 import cn.ucai.fulishe.application.I;
+<<<<<<< HEAD
 import cn.ucai.fulishe.data.utils.L;
+=======
+>>>>>>> origin/master
 
 public class OrderActivity extends AppCompatActivity {
 
@@ -77,6 +89,7 @@ public class OrderActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         orderPrice = getIntent().getIntExtra(I.Cart.PAY_PRICE, 0);
         initView();
+<<<<<<< HEAD
         initPay();
     }
 
@@ -90,6 +103,11 @@ public class OrderActivity extends AppCompatActivity {
 
         PingppLog.DEBUG = true;
     }
+=======
+
+    }
+
+>>>>>>> origin/master
     private void initView() {
         tvOrderPrice.setText(String.valueOf(orderPrice));
         tvBoutiqueCate.setText("提交订单");
@@ -97,6 +115,7 @@ public class OrderActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_order_buy)
     public void commitOrder() {
+<<<<<<< HEAD
         if (chickInput()){
             payment();
         }
@@ -104,32 +123,51 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     private boolean chickInput() {
+=======
+>>>>>>> origin/master
         String receiveName = edOrderName.getText().toString();
         if (TextUtils.isEmpty(receiveName)) {
             edOrderName.setError("收货人姓名不能为空");
             edOrderName.requestFocus();
+<<<<<<< HEAD
             return false;
+=======
+            return;
+>>>>>>> origin/master
         }
         String mobile = edOrderPhone.getText().toString();
         if (TextUtils.isEmpty(mobile)) {
             edOrderPhone.setError("手机号码不能为空");
             edOrderPhone.requestFocus();
+<<<<<<< HEAD
             return false;
+=======
+            return;
+>>>>>>> origin/master
         }
         if (!mobile.matches("[\\d]{11}")) {
             edOrderPhone.setError("手机号码格式错误");
             edOrderPhone.requestFocus();
+<<<<<<< HEAD
             return false;
+=======
+            return;
+>>>>>>> origin/master
         }
         String area = spinOrderProvince.getSelectedItem().toString();
         if (TextUtils.isEmpty(area)) {
             Toast.makeText(OrderActivity.this, "收货地区不能为空", Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
             return false;
+=======
+            return;
+>>>>>>> origin/master
         }
         String address = edOrderStreet.getText().toString();
         if (TextUtils.isEmpty(address)) {
             edOrderStreet.setError("街道地址不能为空");
             edOrderStreet.requestFocus();
+<<<<<<< HEAD
             return false;
         }
         return true;
@@ -176,6 +214,12 @@ public class OrderActivity extends AppCompatActivity {
             }
         });
     }
+=======
+            return;
+        }
+    }
+
+>>>>>>> origin/master
     @OnClick(R.id.ivBack)
     public void onViewClicked() {
         finish();
